@@ -1,0 +1,84 @@
+---
+title: "Syllabus"
+author: "Jeff Brabec"
+date: "9/4/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+# NGP Data-Science Seminar Syllabus
+
+## Course Description and Motivations
+
+This course is designed to introduce graduate students in the cellular, molecular, and neurosciences to basic data analysis and visualization with R. As the seminar progresses we will introduce some of its more advanced packages for bioinformatic analyses. The monthly seminar will be accompanied by office hours every other week where students can share their issues with one another, receive help from the instructors on roadblocks they are having, or ask for help designing and conceptualizing an analysis. The course will run year-round with breaks during the major holidays. Each semester will have a project that students will complete to reinforce the skills and principles they are learning in the course.
+
+Skills in data science are becoming highly sought after in academia and beyond as computational analyses become the norm in basic science. Unless students take part in the Complex Systems certificate, there are no long-term courses at UVM that teach and reinforce the necessary skills for doing these analyses. This course is designed to be a continuous resource throughout a student's time in the programs to teach novel analysis techniques and provide help when student's run into novel issues.
+
+## Learning Outcomes
+
+By the end of the year you will be able to:
+
+1.  Read in, clean, and visualize data using R and the `tidyverse` family of functions
+2.  Design reproducible statistical analyses in R for a range of datasets and types
+3.  Write simple functions to operationalize repetitive analyses
+4.  Ask detailed questions using reproducible examples (reword cause you got confused)
+5.  Read, comprehend, and critically analyze computational methods
+
+## Instructors
+
+### Co-Directors:
+
+Jeff Brabec
+
+Montana Kay Lara
+
+### Invited Faculty:
+
+Seth Frietze - RNA-seq
+
+Josh Bongard - Machine Learning
+
+linear models!
+
+Matt Mahoney - Math...?
+
+Rod Scott - Stats
+
+Amanda Hernan - Stats and Visualizing Data
+
+## How to Succeed in This Course
+
+There is no grade for this course. It is designed for you to get out what you want from it. Is your lab about to do an RNA-seq analysis and you need the quick nuts and bolts of what to do? Great, show up for those sessions and some office hours. If you want to build a broad data science tool-box to answer a multitude of questions and do a range of analyses then come to each session, ask questions, and engage with the broader UVM data science community. Learning a programming language on your own can be hard and we want to make it as painless as possible by providing you with the foundational skills you'll need to succeed and a tight-knit community you can fall back on when an analysis isn't working or you've hit a roadblock that you can't seem to figure a way around.
+
+## Required Materials
+
+-   You
+
+-   Computer
+
+-   RStudio and R (if unable to download on your computer for any reason we can set you up with an RStudio online account)
+
+-   Internet Connection
+
+## Course Logistics and Schedule
+
+Each seminar session will follow the same format. We will open with the presentation and live-coding examples of a new package/tool/principle lasting between 30-45 minutes. We will then spend the next hour and change addressing problems from the class. The first few sessions we will ask for people to submit issues to talk about but as we progress we'll make it more of a roundtable where people can bring up problems.
+
+Every two weeks there will also be two office hour sessions during different days and times throughout the week, run by one of the Co-Directors. This is to encourage students to work on their projects in between seminars and make sure that questions are answered quickly so the drive to continue learning and analysis doesn't waiver. The first semester schedule will occur as follows:
+
+```{r schedule, echo=FALSE}
+library(magrittr)
+schedule <- tibble::tribble(~date, ~session_type, ~session_title, ~instructor,
+                            "10/01/2021", "Seminar", "Introduction and Getting Started with ggplot", "Jeff and Montana",
+                            "10/05/2021", "Office Hours", "Office Hours 1", "Jeff and Montana",
+                            "10/19/2021", "Office Hours", "Office Hours 2", "Jeff and Montana",
+                            "11/05/2021", "Seminar", "Wrangling Data with dplyr", "Jeff and Montana",
+                            "11/09/2021", "Office Hours", "Office Hours 3", "Jeff and Montana",
+                            "11/23/2021", "Office Hours", "Office Hours 4", "Jeff and Montana",
+                            "12/01/2021", "Seminar", "Advent of Code and Making the Most of Online Resources", "Jeff and Montana",
+                            "12/07/2021", "Office Hours", "Office Hours 5", "Jeff and Montana",
+                            "12/14/2021", "Office Hours", "Office Hours 6", "Jeff and Montana") %>% dplyr::mutate(date = lubridate::parse_date_time(date, orders = "mdy"))
+
+knitr::kable(schedule, col.names = names(schedule))
+```
