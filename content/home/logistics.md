@@ -30,6 +30,6 @@ subtitle = "We meet the first Friday of every month for two hours of live-coding
   icon = "code"
   icon_pack = "fas"
   name = "Tutorials"
-  description = "The documents for live-coding tutorials of each session can be found under "Posts""
+  description = "The documents for live-coding tutorials of each session can be found under Posts"
 
 +++
