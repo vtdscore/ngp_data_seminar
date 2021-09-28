@@ -1,52 +1,23 @@
 ---
-bio: My research interests include distributed robotics, mobile computing and programmable
-  matter.
-education:
-  courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
+authors:
+- admin
+bio: This course is designed to introduce graduate students in the cellular, molecular, and neurosciences to basic data analysis and visualization with R.
 email: ""
-highlight_name: true
-interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
-organizations:
-- name: Stanford University
-  url: https://www.stanford.edu/
-role: Professor of Artificial Intelligence
+role: null
 social:
-- icon: envelope
-  icon_pack: fas
-  link: /#contact
-- display:
-    header: true
-  icon: twitter
-  icon_pack: fab
-  label: Follow me on Twitter
-  link: https://twitter.com/GeorgeCushen
-- icon: graduation-cap
-  icon_pack: fas
-  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
 - icon: github
   icon_pack: fab
-  link: https://github.com/gcushen
-- icon: linkedin
-  icon_pack: fab
-  link: https://www.linkedin.com/
+  link: https://github.com/vtdscore
 superuser: true
-title: Nelson Bighetti
+user_groups:
+- Researchers
+- Visitors
 ---
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+<br>
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+This course is designed to introduce graduate students in the cellular, molecular, and neurosciences to basic data analysis and visualization with R. Taught in a seminar style with real-time coding prompts, we will move through the Tidyverse packages, overview statistical analysis, and use some more advanced packages for bioinformatics.
 
-{{< icon name="download" pack="fas" >}} Download my {{< staticref "uploads/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.
+The monthly seminar will be accompanied by office hours where students can share their issues with one another, receive help from the instructors, or ask for help designing and conceptualizing an analysis. The course will run year-round with breaks during the major holidays. Each semester will have a project that students will complete to reinforce the skills and principles they are learning in the course.
+
+Skills in data science are highly sought after in academia and beyond as computational analyses become the norm in basic science. This course is designed to be a continuous resource throughout a student's time in their respective program. With the introduction of novel analysis techniques, community resources, and an accessible introduction into data science, students will have a stronger computational skill set to tackle their future scientific and career goals.
