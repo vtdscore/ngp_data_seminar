@@ -1,7 +1,6 @@
 ---
 authors:
 - admin
-bio: This course is designed to introduce graduate students in the cellular, molecular, and neurosciences to basic data analysis and visualization with R.
 email: ""
 role: null
 social:
