@@ -8,6 +8,9 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/vtdscore
+- icon: youtube
+  icon_pack: fab
+  link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 superuser: true
 user_groups:
 - Researchers
