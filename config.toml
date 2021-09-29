@@ -1,13 +1,13 @@
-baseURL = "https://ngpdatasem.netlify.app/"
+baseurl = "https://ngpdatasem.netlify.app/"
 theme = "starter-hugo-academic"
 languageCode = "en"
-title = "Jeff Brabec"
+title = "NGP-CMB R Seminar"
 author = "Jeff Brabec"
 copyright = "" # set to override the auto generated copyright using org info and now year
 googleAnalytics = ""
 disqusShortname = "" # see params.utterances to use utterances instead of Disqus
 metaDataFormat = "yaml"
-footnoteReturnLinkContents = "&#8617;" # ↩
+footnoteReturnLinkContents = "&#8617;" #
 # set deliberately low for testing choose your preffered number based on the blog layout you've chosen
 paginate = 5
 preserveTaxonomyNames = true
