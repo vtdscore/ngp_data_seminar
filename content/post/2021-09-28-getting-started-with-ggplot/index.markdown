@@ -15,6 +15,11 @@ image:
   focal_point: ''
   preview_only: no
 projects: []
+output:
+  blogdown::html_page:
+    toc: true
+    number_sections: false
+    toc_depth: 1
 ---
 
 ## Step 0: Loading your packages
