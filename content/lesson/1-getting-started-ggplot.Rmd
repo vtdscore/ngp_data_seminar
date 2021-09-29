@@ -13,7 +13,7 @@ output:
 menu:
   lesson:
     parent: Lessons
-    weight: 2
+    weight: 1
 type: docs
 weight: 1
 editor_options:
@@ -56,7 +56,7 @@ penguins
 
 We'll be using the `ggplot2` package to plot our data, which contains a host of helpful functions that add a ["grammar of graphics"](https://ggplot2-book.org) to visualizations in R. The `ggplot()` function takes the data you want to plot as well as the specific variables you're interested in and plots them on a coordinate plane:
 
-```{r}
+```{r blank-ggplot}
 ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm))
 ```
 
@@ -66,7 +66,7 @@ Using the ggplot function alone is like trying to pass off a blank canvas as a w
 
 Every `geom` has the form `geom_thing()`. Each new `geom` is added to the initial `ggplot` function call using the `+` symbol. Let's make a scatterplot looking at the relationship between the body_mass_g and flipper_length_mm. Which `geom` do you think we should use to make the plot? Where do you think you could find some "help" if you're stuck?
 
-```{r}
+```{r adding-points}
 ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)) +
   geom_point()
 
@@ -81,7 +81,7 @@ ggplot(penguins) +
 
 The penguins dataset contains information on three different species: Gentoo, Adelie, and Chinstrap. What ways could we Jazz Up (tm) this plot to identify which points belong to which penguins?
 
-```{r}
+```{r aesthetics}
 
 ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point()
@@ -100,7 +100,7 @@ ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)
 
 There are `geoms` that allow us to plot lines of best fit using different statistical methods like a linear model and others that make it easier to show significant differences between two groups within your data.
 
-```{r}
+```{r linear-model}
 ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point() +
   geom_smooth(model = "lm")
@@ -111,7 +111,7 @@ ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm,
 
 When preparing our plots for publication, we want to ensure that they are as informative as possible. There are several built in functions that help to personalize the title, axis labels, and other text aspects of the plot.
 
-```{r}
+```{r adding-labels}
 ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point() +
   geom_smooth(model = "lm") +
@@ -125,7 +125,7 @@ ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm,
 
 once you're happy with your plot, you can save it using the `ggsave()` function which allows you to specify the kind of image file you want to save the plot as in addition to the resolution you want. 
 
-```{r}
+```{r saving-plot}
 ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_smooth(model = "lm") +
   geom_point() +
@@ -133,4 +133,6 @@ ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm,
        y = "Flipper Length (mm)",
        title = "Comparing Flipper Length and Bill Length of Penguins",
        color = "Species of Penguin")
+
+#ggsave()
  ```
