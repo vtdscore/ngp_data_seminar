@@ -1,3 +1,25 @@
+---
+title: "Getting Started with ggplot"
+linktitle: "Getting Started with ggplot"
+author: Jeff Brabec
+date: '2021-09-28'
+slug: getting-started-with-ggplot
+authors: [jeff]
+lastmod: '2021-09-28T13:30:36-04:00'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+menu:
+  lesson:
+    parent: Lessons
+    weight: 1
+type: docs
+weight: 1
+editor_options:
+  chunk_output_type: console
+---
+
 <script src="1-getting-started-ggplot_files/header-attrs-2.11/header-attrs.js"></script>
 
 <div id="TOC">
@@ -53,7 +75,7 @@ library(&quot;tidyverse&quot;)</code></pre>
 <h2>Step 2: Visualizing with ggplot</h2>
 <p>We’ll be using the <code>ggplot2</code> package to plot our data, which contains a host of helpful functions that add a <a href="https://ggplot2-book.org">“grammar of graphics”</a> to visualizations in R. The <code>ggplot()</code> function takes the data you want to plot as well as the specific variables you’re interested in and plots them on a coordinate plane:</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm))</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/blank-ggplot-1.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/blank-ggplot-1.png" width="672" /></p>
 <div id="a.-adding-geoms" class="section level3">
 <h3>A. Adding geoms!</h3>
 <p>Using the ggplot function alone is like trying to pass off a blank canvas as a work of art. You haven’t done any of the steps to actually paint the picture. If your variables are the paint, the geometries or <code>geoms</code> are the paint brushes that help determine how those variables appear on the canvas.</p>
@@ -61,15 +83,15 @@ library(&quot;tidyverse&quot;)</code></pre>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)) +
   geom_point()</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/adding-points-1.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/adding-points-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(penguins, aes(bill_length_mm, flipper_length_mm)) +
   geom_point()</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/adding-points-2.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/adding-points-2.png" width="672" /></p>
 <pre class="r"><code>ggplot(penguins) +
   geom_point(aes(bill_length_mm, flipper_length_mm))</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/adding-points-3.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/adding-points-3.png" width="672" /></p>
 </div>
 <div id="b.-jazzing-it-up-technical-term" class="section level3">
 <h3>B. Jazzing it up (technical term)</h3>
@@ -77,19 +99,19 @@ library(&quot;tidyverse&quot;)</code></pre>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point()</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/aesthetics-1.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/aesthetics-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, shape = species)) +
   geom_point()</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/aesthetics-2.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/aesthetics-2.png" width="672" /></p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, shape = species, color = sex)) +
   geom_point()</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/aesthetics-3.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/aesthetics-3.png" width="672" /></p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)) +
   geom_point(color = &quot;blue&quot;)</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/aesthetics-4.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/aesthetics-4.png" width="672" /></p>
 </div>
 <div id="c.-showing-an-analysis" class="section level3">
 <h3>C. Showing an analysis</h3>
@@ -101,7 +123,7 @@ library(&quot;tidyverse&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_smooth).</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/linear-model-1.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/linear-model-1.png" width="672" /></p>
 </div>
 <div id="d.-prepping-your-plot-for-publication" class="section level3">
 <h3>D. Prepping your plot for publication</h3>
@@ -117,7 +139,7 @@ library(&quot;tidyverse&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_smooth).</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/adding-labels-1.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/adding-labels-1.png" width="672" /></p>
 </div>
 <div id="e.-saving-your-plot" class="section level3">
 <h3>E. Saving your plot</h3>
@@ -133,7 +155,7 @@ library(&quot;tidyverse&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_smooth).</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="1-getting-started-ggplot_files/figure-html/saving-plot-1.png" width="672" /></p>
+<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/saving-plot-1.png" width="672" /></p>
 <pre class="r"><code>#ggsave()</code></pre>
 </div>
 </div>
