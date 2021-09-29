@@ -7,10 +7,13 @@ main:
   - name: Logistics
     url: '#logistics'
     weight: 10
+  - name: Lessons
+    url: '/lesson'
+    weight: 20
   - name: Posts
     url: '/post'
-    weight: 20
+    weight: 30
   - name: People
     url: '#people'
-    weight: 30
+    weight: 40
 
