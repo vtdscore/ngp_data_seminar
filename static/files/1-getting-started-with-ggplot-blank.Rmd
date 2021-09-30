@@ -1,30 +1,13 @@
 ---
-title: "Getting Started with ggplot"
-linktitle: "Getting Started with ggplot"
-author: Jeff Brabec
-date: '2021-09-28'
-slug: getting-started-with-ggplot
-authors: [jeff]
-lastmod: '2021-09-28T13:30:36-04:00'
-output:
-  blogdown::html_page:
-    toc: true
-    toc_depth: 2
-menu:
-  lesson:
-    parent: Lessons
-    weight: 1
-type: docs
-weight: 1
-editor_options:
-  chunk_output_type: console
+title: "Getting Started with ggplot blank"
+author: "Jeff Brabec"
+date: "9/30/2021"
+output: html_document
 ---
 
 ```{r penguins, echo=FALSE, out.width="75%"}
 knitr::include_graphics("/img/featured-penguinis.png", error = FALSE)
 ```
-
-**You can download a blank copy of this document** [here](/files/1-getting-started-with-ggplot-blank.Rmd)
 
 ## Step 0: Loading your packages
 
@@ -69,7 +52,7 @@ We'll be using the `ggplot2` package to plot our data, which contains a host of 
 There are two main arguments to `ggplot`, `data` and `mapping.` The `data` argument is self-explanatory: its where you specify the data.frame with the data you want to plot. The `mapping` argument is where you're going to specify the variables you want to map to visual properties. You will always use the `aes` function in conjunction with `mapping` to specify the variables you want to map to visual properties. Commonly you will always specify an `x` and a `y` aesthetic. To demonstrate this let's map `bill_length_mm` to `x` and `flipper_length_mm` to `y`:
 
 ```{r blank-ggplot}
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm))
+
 ```
 
 Its blank! What's up with that? If we think of plotting like painting a picture, using ggplot2 alone initiates the canvas but doesn't put on any of the paint. To add the important visual aspects of our plot we need to add `geoms`.
@@ -79,8 +62,7 @@ Its blank! What's up with that? If we think of plotting like painting a picture,
 Every `geom` has the form `geom_thing()`. If you want to add more than one `geom` use the `+` symbol. Let's make a scatterplot looking at the relationship between the `bill_length_mm` and `flipper_length_mm.` There isn't a `geom_scatter` function, but there is a `geom_point`. Let's try that out:
 
 ```{r adding-points}
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)) +
-  geom_point()
+
 ```
 
 We have a plot! Now let's explore ways that we can make our plot a little prettier.
@@ -99,19 +81,6 @@ Let's set some of these aesthetics and see how they change the plot:
 
 ```{r aesthetics}
 
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
-  geom_point()
-
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, shape = species)) +
-  geom_point()
-
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, shape = species, color = sex)) +
-  geom_point()
-
-#Setting an aesthetic to a specific color
-
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)) +
-  geom_point(color = "blue")
 ```
 
 ### C. Showing an analysis
@@ -121,9 +90,7 @@ So far we've learned how to generate a plot using `geoms` and how to change thei
 To plot a line of best fit to your data you can use `geom_smooth` which takes a modeling function as its main argument. Today we'll look at the linear model using the function `lm`.
 
 ```{r linear-model}
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
-  geom_point() +
-  geom_smooth(method = "lm")
+
 ```
 
 ### D. Prepping your plot for publication
@@ -131,13 +98,7 @@ ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm,
 You've done the hard work of polishing and reworking your plot to look just right. Now as you prepare to publish the plot, or share it with your PI you want to ensure that it is as informative as possible. There are several built in functions that help to personalize the title, axis labels, and other text aspects of the plot. For now we'll use the `labs` function. For more "hands-on" personalization you can use the `theme` function, which we'll explore later. 
 
 ```{r adding-labels}
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  labs(x = "Bill Length (mm)",
-       y = "Flipper Length (mm)",
-       title = "Comparing Flipper Length and Bill Length of Penguins",
-       color = "Species of Penguin")
+
 ```
 
 ### E. Saving your plot
@@ -145,27 +106,7 @@ ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm,
 Once you're happy with your plot, you can save it using the `ggsave()` function which allows you to specify the kind of image file you want to save the plot as in addition to the resolution you want.
 
 ```{r saving-plot, eval=FALSE}
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
-  geom_smooth(method = "lm") +
-  geom_point() +
-  labs(x = "Bill Length (mm)",
-       y = "Flipper Length (mm)",
-       title = "Comparing Flipper Length and Bill Length of Penguins",
-       color = "Species of Penguin")
 
-ggsave(filename = "penguin_plot.png", plot = last_plot())
-
-#OR
-
-penguin_plot <- ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
-  geom_smooth(method = "lm") +
-  geom_point() +
-  labs(x = "Bill Length (mm)",
-       y = "Flipper Length (mm)",
-       title = "Comparing Flipper Length and Bill Length of Penguins",
-       color = "Species of Penguin")
-
-ggsave(filename = "penguin_plot.png", plot = penguin_plot)
 ```
 
 
