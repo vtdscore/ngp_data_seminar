@@ -165,3 +165,14 @@ penguin_plot <- ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = fl
 
 ggsave(filename = "penguin_plot.png", plot = penguin_plot)
 ```
+
+
+## Extra Resources
+
+This was just a dip of the toe into the ggplot waters. If you want to explore and learn more on your own check out these resources:
+
+- [R for Data Science Chapter 3 Data Visualization](https://r4ds.had.co.nz/data-visualisation.html)
+- [The ggplot2 book](https://ggplot2-book.org)
+- [Top 50 ggplot Visualization with Code](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
+- [ggpubr, A Package for Developing Publication Ready Plots](https://rpkgs.datanovia.com/ggpubr/)
+- [David Robinson (posts videos of TidyTuesday analysis workflows)](https://www.youtube.com/user/safe4democracy)
