@@ -20,6 +20,10 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy('')
+```
+
 ```{r penguins, echo=FALSE, out.width="75%"}
 knitr::include_graphics("/img/featured-penguinis.png", error = FALSE)
 ```
