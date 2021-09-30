@@ -52,7 +52,7 @@ There is no grade for this course. It is designed for students to maximize their
 
 -   Computer
 
--   RStudio and R (if unable to download on your computer for any reason we can set you up with an RStudio online account)
+-   [RStudio](https://www.rstudio.com/products/rstudio/download/#download) and [R](https://mirror.las.iastate.edu/CRAN/) (if unable to download on your computer for any reason we can set you up with an RStudio online account)
 
 -   Internet Connection
 

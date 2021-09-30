@@ -33,9 +33,9 @@ editor_options:
 <p><img src="/img/featured-penguinis.png" width="75%" /></p>
 <div id="step-0-loading-your-packages" class="section level2">
 <h2>Step 0: Loading your packages</h2>
-<p>The first thing that you should always do when starting a new analysis is load in all the packages you think you’ll need in the very first chunk of code, usually labeled <code>setup</code>, as you can see below.</p>
-<p>As you proceed with your analysis you might find that you need to load some additional packages. If that’s the case, good practice is to add those packages to the setup chunk and not just load them into the chunk you’re working on. Having all the packages you used for an analysis listed at the beginning makes it easier for someone trying to replicate your analysis to install everything they need, without having to scroll through your potentially lengthy document to find all the packages you used.</p>
-<p>For our analysis today we’re going to be using the <code>palmerpenguins</code> package for our data, and <code>ggplot2</code> which is part of the <code>tidyverse</code> family of functions, which we’ll learn more about in the coming days and weeks! These packages don’t come with R to start, so we need to install them using a function called <code>install.packages()</code>.</p>
+<p>The first step in any new analysis is installing and loading the packages you think you’ll need in the very first chunk of code, usually labeled <code>setup</code>, as you can see below.</p>
+<p>As you proceed with your analysis you might find that you need to load some additional packages. If that’s the case, good practice is to add those packages to the setup chunk instead of loading them in the chunk you’re working on. Having all the packages you used for an analysis listed at the beginning of the document makes it easier for someone trying to replicate your analysis to install everything they need without having to scroll through your potentially lengthy document to find all the packages you used.</p>
+<p>For our analysis today we’re going to be using the <code>palmerpenguins</code> package for our data, and <code>ggplot2</code> which is part of the <code>tidyverse</code> family of functions, which we’ll learn more about in the coming weeks and months! These packages don’t come with base R, so we need to install them using a function called <code>install.packages()</code>.</p>
 <pre class="r"><code>#Here we were downloading, installing, and loading our packages
 #install.packages(&quot;palmerpenguins&quot;)
 #install.packages(&quot;tidyverse&quot;)
@@ -52,9 +52,9 @@ library(&quot;tidyverse&quot;)</code></pre>
 </div>
 <div id="step-1-examining-your-data" class="section level2">
 <h2>Step 1: Examining your data</h2>
-<p>Before visualizing or doing any kind of data analysis you should examine your data. What variables are you working with? How many observations are in your data set? Is there any missing data? What data types are represented?</p>
+<p>Before visualizing or analyzing your data, you should physically look at it. What variables are you working with? How many observations are in your data set? Is there any missing data? What data types are represented?</p>
 <p>Knowing all this information can help you make a plan for the analyses you want to perform (e.g. a linear model) and how you want to visualize it (line plot).</p>
-<p>To see what information is stored in an object in R you type out the name, in our case <code>penguins</code>, and then type Cmd + Enter or Ctrl + Enter depending on your device. You should now see the first few rows of the peguin dataset reported below the code chunk!</p>
+<p>To see what information is stored in an object in R you type out the name, in our case <code>penguins</code>, and then type <strong>Cmd + Enter</strong> for Macs or <strong>Ctrl + Enter</strong> for PCs. You should now see the first few rows of the penguin dataset reported below the code chunk!</p>
 <pre class="r"><code>penguins</code></pre>
 <pre><code>## # A tibble: 344 × 8
 ##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
@@ -70,32 +70,39 @@ library(&quot;tidyverse&quot;)</code></pre>
 ##  9 Adelie  Torgersen           34.1          18.1               193        3475
 ## 10 Adelie  Torgersen           42            20.2               190        4250
 ## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+<p>What are some things you notice about the data? How many <strong>variables</strong> are there? How many <strong>observations</strong> are there?</p>
+<div class="note">
+<p><strong>Vocabulary Alert!</strong></p>
+<p>When we talk about <mark>variables</mark> we are referring to <mark>columns</mark>. On the other hand, <mark style="background-color: lightblue">observations</mark> refer to the data contained in the <mark style="background-color: lightblue">rows</mark>.</p>
+</div>
 </div>
 <div id="step-2-visualizing-with-ggplot" class="section level2">
 <h2>Step 2: Visualizing with ggplot</h2>
-<p>We’ll be using the <code>ggplot2</code> package to plot our data, which contains a host of helpful functions that add a <a href="https://ggplot2-book.org">“grammar of graphics”</a> to visualizations in R. The <code>ggplot()</code> function takes the data you want to plot as well as the specific variables you’re interested in and plots them on a coordinate plane:</p>
+<p>We’ll be using the <code>ggplot2</code> package to plot our data, which contains a host of helpful functions that add a <a href="https://ggplot2-book.org">“grammar of graphics”</a> to visualizations in R. The <code>ggplot()</code> function takes the data you want to plot as well as the specific variables you’re interested in and plots them on a coordinate plane.</p>
+<p>There are two main arguments to <code>ggplot</code>, <code>data</code> and <code>mapping.</code> The <code>data</code> argument is self-explanatory: its where you specify the data.frame with the data you want to plot. The <code>mapping</code> argument is where you’re going to specify the variables you want to map to visual properties. You will always use the <code>aes</code> function in conjunction with <code>mapping</code> to specify the variables you want to map to visual properties. Commonly you will always specify an <code>x</code> and a <code>y</code> aesthetic. To demonstrate this let’s map <code>bill_length_mm</code> to <code>x</code> and <code>flipper_length_mm</code> to <code>y</code>:</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm))</code></pre>
 <p><img src="/lesson/1-getting-started-ggplot_files/figure-html/blank-ggplot-1.png" width="672" /></p>
+<p>Its blank! What’s up with that? If we think of plotting like painting a picture, using ggplot2 alone initiates the canvas but doesn’t put on any of the paint. To add the important visual aspects of our plot we need to add <code>geoms</code>.</p>
 <div id="a.-adding-geoms" class="section level3">
 <h3>A. Adding geoms!</h3>
-<p>Using the ggplot function alone is like trying to pass off a blank canvas as a work of art. You haven’t done any of the steps to actually paint the picture. If your variables are the paint, the geometries or <code>geoms</code> are the paint brushes that help determine how those variables appear on the canvas.</p>
-<p>Every <code>geom</code> has the form <code>geom_thing()</code>. Each new <code>geom</code> is added to the initial <code>ggplot</code> function call using the <code>+</code> symbol. Let’s make a scatterplot looking at the relationship between the body_mass_g and flipper_length_mm. Which <code>geom</code> do you think we should use to make the plot? Where do you think you could find some “help” if you’re stuck?</p>
+<p>Every <code>geom</code> has the form <code>geom_thing()</code>. If you want to add more than one <code>geom</code> use the <code>+</code> symbol. Let’s make a scatterplot looking at the relationship between the <code>bill_length_mm</code> and <code>flipper_length_mm.</code> There isn’t a <code>geom_scatter</code> function, but there is a <code>geom_point</code>. Let’s try that out:</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)) +
   geom_point()</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
 <p><img src="/lesson/1-getting-started-ggplot_files/figure-html/adding-points-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(penguins, aes(bill_length_mm, flipper_length_mm)) +
-  geom_point()</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/adding-points-2.png" width="672" /></p>
-<pre class="r"><code>ggplot(penguins) +
-  geom_point(aes(bill_length_mm, flipper_length_mm))</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/adding-points-3.png" width="672" /></p>
+<p>We have a plot! Now let’s explore ways that we can make our plot a little prettier.</p>
 </div>
 <div id="b.-jazzing-it-up-technical-term" class="section level3">
 <h3>B. Jazzing it up (technical term)</h3>
-<p>The penguins dataset contains information on three different species: Gentoo, Adelie, and Chinstrap. What ways could we Jazz Up (tm) this plot to identify which points belong to which penguins?</p>
+<p>The penguins dataset contains information on three different species: Gentoo, Adelie, and Chinstrap. There are a few common ways that we could Jazz Up (tm) this plot to identify which points belong to which species of penguins:</p>
+<ul>
+<li>color</li>
+<li>shape</li>
+<li>linetype</li>
+<li>size (probably not great for categorical data like species)</li>
+<li>fill (like color but used for <code>geoms</code> like boxplot or bar)</li>
+</ul>
+<p>Let’s set some of these aesthetics and see how they change the plot:</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point()</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
@@ -108,14 +115,17 @@ library(&quot;tidyverse&quot;)</code></pre>
   geom_point()</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
 <p><img src="/lesson/1-getting-started-ggplot_files/figure-html/aesthetics-3.png" width="672" /></p>
-<pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)) +
+<pre class="r"><code>#Setting an aesthetic to a specific color
+
+ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)) +
   geom_point(color = &quot;blue&quot;)</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
 <p><img src="/lesson/1-getting-started-ggplot_files/figure-html/aesthetics-4.png" width="672" /></p>
 </div>
 <div id="c.-showing-an-analysis" class="section level3">
 <h3>C. Showing an analysis</h3>
-<p>There are <code>geoms</code> that allow us to plot lines of best fit using different statistical methods like a linear model and others that make it easier to show significant differences between two groups within your data.</p>
+<p>So far we’ve learned how to generate a plot using <code>geoms</code> and how to change their appearances using different aesthetics. But what if we want to show an analysis on the plot? There are <code>geoms</code> that allow us to plot lines of best fit using different statistical methods like a linear regression model and others that make it easier to show significant differences between two groups within your data.</p>
+<p>To plot a line of best fit to your data you can use <code>geom_smooth</code> which takes a modeling function as its main argument. Today we’ll look at the linear model using the function <code>lm</code>.</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point() +
   geom_smooth(model = &quot;lm&quot;)</code></pre>
@@ -127,7 +137,7 @@ library(&quot;tidyverse&quot;)</code></pre>
 </div>
 <div id="d.-prepping-your-plot-for-publication" class="section level3">
 <h3>D. Prepping your plot for publication</h3>
-<p>When preparing our plots for publication, we want to ensure that they are as informative as possible. There are several built in functions that help to personalize the title, axis labels, and other text aspects of the plot.</p>
+<p>You’ve done the hard work of polishing and reworking your plot to look just right. Now as you prepare to publish the plot, or share it with your PI you want to ensure that it is as informative as possible. There are several built in functions that help to personalize the title, axis labels, and other text aspects of the plot. For now we’ll use the <code>labs</code> function. For more “hands-on” personalization you can use the <code>theme</code> function, which we’ll explore later.</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point() +
   geom_smooth(model = &quot;lm&quot;) +
@@ -143,19 +153,27 @@ library(&quot;tidyverse&quot;)</code></pre>
 </div>
 <div id="e.-saving-your-plot" class="section level3">
 <h3>E. Saving your plot</h3>
-<p>once you’re happy with your plot, you can save it using the <code>ggsave()</code> function which allows you to specify the kind of image file you want to save the plot as in addition to the resolution you want.</p>
+<p>Once you’re happy with your plot, you can save it using the <code>ggsave()</code> function which allows you to specify the kind of image file you want to save the plot as in addition to the resolution you want.</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_smooth(model = &quot;lm&quot;) +
   geom_point() +
   labs(x = &quot;Bill Length (mm)&quot;,
        y = &quot;Flipper Length (mm)&quot;,
        title = &quot;Comparing Flipper Length and Bill Length of Penguins&quot;,
-       color = &quot;Species of Penguin&quot;)</code></pre>
-<pre><code>## Warning: Ignoring unknown parameters: model</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="/lesson/1-getting-started-ggplot_files/figure-html/saving-plot-1.png" width="672" /></p>
-<pre class="r"><code>#ggsave()</code></pre>
+       color = &quot;Species of Penguin&quot;)
+
+ggsave(filename = &quot;penguin_plot.png&quot;, plot = last_plot())
+
+#OR
+
+penguin_plot &lt;- ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
+  geom_smooth(model = &quot;lm&quot;) +
+  geom_point() +
+  labs(x = &quot;Bill Length (mm)&quot;,
+       y = &quot;Flipper Length (mm)&quot;,
+       title = &quot;Comparing Flipper Length and Bill Length of Penguins&quot;,
+       color = &quot;Species of Penguin&quot;)
+
+ggsave(filename = &quot;penguin_plot.png&quot;, plot = penguin_plot)</code></pre>
 </div>
 </div>
