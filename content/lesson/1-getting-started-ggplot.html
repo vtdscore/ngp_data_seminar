@@ -128,9 +128,8 @@ ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)
 <p>To plot a line of best fit to your data you can use <code>geom_smooth</code> which takes a modeling function as its main argument. Today we’ll look at the linear model using the function <code>lm</code>.</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point() +
-  geom_smooth(model = &quot;lm&quot;)</code></pre>
-<pre><code>## Warning: Ignoring unknown parameters: model</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_smooth).</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
 <p><img src="/lesson/1-getting-started-ggplot_files/figure-html/linear-model-1.png" width="672" /></p>
@@ -140,13 +139,12 @@ ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)
 <p>You’ve done the hard work of polishing and reworking your plot to look just right. Now as you prepare to publish the plot, or share it with your PI you want to ensure that it is as informative as possible. There are several built in functions that help to personalize the title, axis labels, and other text aspects of the plot. For now we’ll use the <code>labs</code> function. For more “hands-on” personalization you can use the <code>theme</code> function, which we’ll explore later.</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point() +
-  geom_smooth(model = &quot;lm&quot;) +
+  geom_smooth(method = &quot;lm&quot;) +
   labs(x = &quot;Bill Length (mm)&quot;,
        y = &quot;Flipper Length (mm)&quot;,
        title = &quot;Comparing Flipper Length and Bill Length of Penguins&quot;,
        color = &quot;Species of Penguin&quot;)</code></pre>
-<pre><code>## Warning: Ignoring unknown parameters: model</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_smooth).</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
 <p><img src="/lesson/1-getting-started-ggplot_files/figure-html/adding-labels-1.png" width="672" /></p>
@@ -155,7 +153,7 @@ ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)
 <h3>E. Saving your plot</h3>
 <p>Once you’re happy with your plot, you can save it using the <code>ggsave()</code> function which allows you to specify the kind of image file you want to save the plot as in addition to the resolution you want.</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
-  geom_smooth(model = &quot;lm&quot;) +
+  geom_smooth(method = &quot;lm&quot;) +
   geom_point() +
   labs(x = &quot;Bill Length (mm)&quot;,
        y = &quot;Flipper Length (mm)&quot;,
@@ -167,7 +165,7 @@ ggsave(filename = &quot;penguin_plot.png&quot;, plot = last_plot())
 #OR
 
 penguin_plot &lt;- ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
-  geom_smooth(model = &quot;lm&quot;) +
+  geom_smooth(method = &quot;lm&quot;) +
   geom_point() +
   labs(x = &quot;Bill Length (mm)&quot;,
        y = &quot;Flipper Length (mm)&quot;,

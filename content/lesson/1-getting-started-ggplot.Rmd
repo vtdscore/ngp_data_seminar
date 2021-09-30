@@ -121,7 +121,7 @@ To plot a line of best fit to your data you can use `geom_smooth` which takes a 
 ```{r linear-model}
 ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point() +
-  geom_smooth(model = "lm")
+  geom_smooth(method = "lm")
 ```
 
 ### D. Prepping your plot for publication
@@ -131,7 +131,7 @@ You've done the hard work of polishing and reworking your plot to look just righ
 ```{r adding-labels}
 ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
   geom_point() +
-  geom_smooth(model = "lm") +
+  geom_smooth(method = "lm") +
   labs(x = "Bill Length (mm)",
        y = "Flipper Length (mm)",
        title = "Comparing Flipper Length and Bill Length of Penguins",
@@ -144,7 +144,7 @@ Once you're happy with your plot, you can save it using the `ggsave()` function 
 
 ```{r saving-plot, eval=FALSE}
 ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
-  geom_smooth(model = "lm") +
+  geom_smooth(method = "lm") +
   geom_point() +
   labs(x = "Bill Length (mm)",
        y = "Flipper Length (mm)",
@@ -156,7 +156,7 @@ ggsave(filename = "penguin_plot.png", plot = last_plot())
 #OR
 
 penguin_plot <- ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm, color = species)) +
-  geom_smooth(model = "lm") +
+  geom_smooth(method = "lm") +
   geom_point() +
   labs(x = "Bill Length (mm)",
        y = "Flipper Length (mm)",
