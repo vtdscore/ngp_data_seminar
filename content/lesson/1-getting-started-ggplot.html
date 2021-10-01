@@ -84,6 +84,7 @@ library(&quot;tidyverse&quot;)</code></pre>
 ## 10 Adelie  Torgersen           42            20.2               190        4250
 ## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
 <p>What are some things you notice about the data? How many <strong>variables</strong> are there? How many <strong>observations</strong> are there?</p>
+<p><img src="/img/tidydata_2.jpeg" /></p>
 <div class="note">
 <p><strong>Vocabulary Alert!</strong></p>
 <p>When we talk about <mark>variables</mark> we are referring to <mark>columns</mark>. On the other hand, <mark style="background-color: lightblue">observations</mark> refer to the data contained in the <mark style="background-color: lightblue">rows</mark>.</p>
@@ -92,6 +93,7 @@ library(&quot;tidyverse&quot;)</code></pre>
 <div id="step-2-visualizing-with-ggplot" class="section level2">
 <h2>Step 2: Visualizing with ggplot</h2>
 <p>We’ll be using the <code>ggplot2</code> package to plot our data, which contains a host of helpful functions that add a <a href="https://ggplot2-book.org">“grammar of graphics”</a> to visualizations in R. The <code>ggplot()</code> function takes the data you want to plot as well as the specific variables you’re interested in and plots them on a coordinate plane.</p>
+<p><img src="/img/ggplot2_masterpiece.png" /></p>
 <p>There are two main arguments to <code>ggplot</code>, <code>data</code> and <code>mapping.</code> The <code>data</code> argument is self-explanatory: its where you specify the data.frame with the data you want to plot. The <code>mapping</code> argument is where you’re going to specify the variables you want to map to visual properties. You will always use the <code>aes</code> function in conjunction with <code>mapping</code> to specify the variables you want to map to visual properties. Commonly you will always specify an <code>x</code> and a <code>y</code> aesthetic. To demonstrate this let’s map <code>bill_length_mm</code> to <code>x</code> and <code>flipper_length_mm</code> to <code>y</code>:</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm))</code></pre>
 <p><img src="/lesson/1-getting-started-ggplot_files/figure-html/blank-ggplot-1.png" width="672" /></p>

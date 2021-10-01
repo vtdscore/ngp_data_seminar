@@ -68,6 +68,8 @@ penguins
 
 What are some things you notice about the data? How many **variables** are there? How many **observations** are there?
 
+![](/img/tidydata_2.jpeg)
+
 ::: {.note}
 **Vocabulary Alert!**
 
@@ -77,6 +79,8 @@ When we talk about <mark>variables</mark> we are referring to <mark>columns</mar
 ## Step 2: Visualizing with ggplot
 
 We'll be using the `ggplot2` package to plot our data, which contains a host of helpful functions that add a ["grammar of graphics"](https://ggplot2-book.org) to visualizations in R. The `ggplot()` function takes the data you want to plot as well as the specific variables you're interested in and plots them on a coordinate plane.
+
+![](/img/ggplot2_masterpiece.png)
 
 There are two main arguments to `ggplot`, `data` and `mapping.` The `data` argument is self-explanatory: its where you specify the data.frame with the data you want to plot. The `mapping` argument is where you're going to specify the variables you want to map to visual properties. You will always use the `aes` function in conjunction with `mapping` to specify the variables you want to map to visual properties. Commonly you will always specify an `x` and a `y` aesthetic. To demonstrate this let's map `bill_length_mm` to `x` and `flipper_length_mm` to `y`:
 
