@@ -73,7 +73,16 @@ div.note:before {
     left: 30px;
 }
 
+div.fyi {
+    color: nth($colors-dark, 3);
+    background-color: nth($colors-light, 3);
+    border: dotted 4px nth($colors-dark, 3);
+}
 
+div.fyi:before {
+    content: "\f05a";
+    left: 20px;
+}
 
 
 

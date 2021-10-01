@@ -5,9 +5,23 @@ date: "9/30/2021"
 output: html_document
 ---
 
+::: {.fyi}
+**Learning Objectives**
+
+After this session you will be able to:
+
+- Enter and run code in RStudio
+- Modify the `data` and `mapping` arguments of `ggplot`
+- Use `geoms` to plot your data
+- Use aesthetics to modify the appearance of your `geom`
+- Save your plot using `ggsave`
+:::
+
 ```{r penguins, echo=FALSE, out.width="75%"}
 knitr::include_graphics("/img/featured-penguinis.png", error = FALSE)
 ```
+
+**You can download a blank copy of this document** [here](/files/1-getting-started-with-ggplot-blank.Rmd)
 
 ## Step 0: Loading your packages
 
@@ -55,11 +69,15 @@ There are two main arguments to `ggplot`, `data` and `mapping.` The `data` argum
 
 ```
 
-Its blank! What's up with that? If we think of plotting like painting a picture, using ggplot2 alone initiates the canvas but doesn't put on any of the paint. To add the important visual aspects of our plot we need to add `geoms`.
+Its blank! What's up with that? If we think of plotting like painting a picture, using ggplot2 alone initiates the canvas but doesn't put on any of the paint. This image is a great visual representation of how the different parts of `ggplot` layer on top of one another to produce a polished figure:
+
+![Source: Andrew Heiss](/img/ggplot-layers.png)
+
+Alone, `ggplot` merely holds onto your data, waiting for instructions on what to do with it. Not until you add the `geoms` and more advanced aspects of `ggplot` do you actually start to see the plot develop.
 
 ### A. Adding geoms!
 
-Every `geom` has the form `geom_thing()`. If you want to add more than one `geom` use the `+` symbol. Let's make a scatterplot looking at the relationship between the `bill_length_mm` and `flipper_length_mm.` There isn't a `geom_scatter` function, but there is a `geom_point`. Let's try that out:
+To add the important visual aspects of our plot we need to add `geoms`. Every `geom` has the form `geom_thing()`. If you want to add more than one `geom` use the `+` symbol. Let's make a scatterplot looking at the relationship between the `bill_length_mm` and `flipper_length_mm.` There isn't a `geom_scatter` function, but there is a `geom_point`. Let's try that out:
 
 ```{r adding-points}
 

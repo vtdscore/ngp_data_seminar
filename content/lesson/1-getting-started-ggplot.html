@@ -21,10 +21,6 @@ editor_options:
 ---
 
 <script src="/lesson/1-getting-started-ggplot_files/header-attrs-2.11/header-attrs.js"></script>
-<script src="/lesson/1-getting-started-ggplot_files/clipboard-1.7.1/clipboard.min.js"></script>
-<link href="/lesson/1-getting-started-ggplot_files/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
-<link href="/lesson/1-getting-started-ggplot_files/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
-<script src="/lesson/1-getting-started-ggplot_files/klippy-0.0.0.9500/js/klippy.min.js"></script>
 
 <div id="TOC">
 <ul>
@@ -35,9 +31,17 @@ editor_options:
 </ul>
 </div>
 
-<script>
-  addKlippy('left', 'top', 'auto', '1', 'Copy code', 'Copied!');
-</script>
+<div class="fyi">
+<p><strong>Learning Objectives</strong></p>
+<p>After this session you will be able to:</p>
+<ul>
+<li>Enter and run code in RStudio</li>
+<li>Modify the <code>data</code> and <code>mapping</code> arguments of <code>ggplot</code></li>
+<li>Use <code>geoms</code> to plot your data</li>
+<li>Use aesthetics to modify the appearance of your <code>geom</code></li>
+<li>Save your plot using <code>ggsave</code></li>
+</ul>
+</div>
 <p><img src="/img/featured-penguinis.png" width="75%" /></p>
 <p><strong>You can download a blank copy of this document</strong> <a href="/files/1-getting-started-with-ggplot-blank.Rmd">here</a></p>
 <div id="step-0-loading-your-packages" class="section level2">
@@ -91,10 +95,15 @@ library(&quot;tidyverse&quot;)</code></pre>
 <p>There are two main arguments to <code>ggplot</code>, <code>data</code> and <code>mapping.</code> The <code>data</code> argument is self-explanatory: its where you specify the data.frame with the data you want to plot. The <code>mapping</code> argument is where you’re going to specify the variables you want to map to visual properties. You will always use the <code>aes</code> function in conjunction with <code>mapping</code> to specify the variables you want to map to visual properties. Commonly you will always specify an <code>x</code> and a <code>y</code> aesthetic. To demonstrate this let’s map <code>bill_length_mm</code> to <code>x</code> and <code>flipper_length_mm</code> to <code>y</code>:</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm))</code></pre>
 <p><img src="/lesson/1-getting-started-ggplot_files/figure-html/blank-ggplot-1.png" width="672" /></p>
-<p>Its blank! What’s up with that? If we think of plotting like painting a picture, using ggplot2 alone initiates the canvas but doesn’t put on any of the paint. To add the important visual aspects of our plot we need to add <code>geoms</code>.</p>
+<p>Its blank! What’s up with that? If we think of plotting like painting a picture, using ggplot2 alone initiates the canvas but doesn’t put on any of the paint. This image is a great visual representation of how the different parts of <code>ggplot</code> layer on top of one another to produce a polished figure:</p>
+<div class="figure">
+<img src="/img/ggplot-layers.png" alt="" />
+<p class="caption">Source: Andrew Heiss</p>
+</div>
+<p>Alone, <code>ggplot</code> merely holds onto your data, waiting for instructions on what to do with it. Not until you add the <code>geoms</code> and more advanced aspects of <code>ggplot</code> do you actually start to see the plot develop.</p>
 <div id="a.-adding-geoms" class="section level3">
 <h3>A. Adding geoms!</h3>
-<p>Every <code>geom</code> has the form <code>geom_thing()</code>. If you want to add more than one <code>geom</code> use the <code>+</code> symbol. Let’s make a scatterplot looking at the relationship between the <code>bill_length_mm</code> and <code>flipper_length_mm.</code> There isn’t a <code>geom_scatter</code> function, but there is a <code>geom_point</code>. Let’s try that out:</p>
+<p>To add the important visual aspects of our plot we need to add <code>geoms</code>. Every <code>geom</code> has the form <code>geom_thing()</code>. If you want to add more than one <code>geom</code> use the <code>+</code> symbol. Let’s make a scatterplot looking at the relationship between the <code>bill_length_mm</code> and <code>flipper_length_mm.</code> There isn’t a <code>geom_scatter</code> function, but there is a <code>geom_point</code>. Let’s try that out:</p>
 <pre class="r"><code>ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = flipper_length_mm)) +
   geom_point()</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
