@@ -1,0 +1,95 @@
+---
+title: 'Plots are like onions, they have layers: exploring aesthetic and geom ordering
+  in ggplot'
+author: Jeff Brabec
+date: '2021-10-16'
+slug: plots-are-like-onions-they-have-layers-exploring-aesthetic-and-geom-ordering-in-ggplot
+categories: []
+tags: []
+subtitle: ''
+summary: ''
+authors: [jeff]
+lastmod: '2021-10-16T09:52:36-04:00'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+menu:
+  post:
+    parent: Posts
+    weight: 1
+---
+
+
+In our first session, we went over the basics of ggplot from how to generate a basic scatterplot to adding aesthetics to that plot such as color, size, and a line of best fit. We also discussed how `ggplot` builds your plot in layers, adding each subsequent `geom` or plot feature on top of the previous ones. That layering is not always as straightforward as the image below suggests. Depending on where you specify aesthetics in your `ggplot` code you could end up with a plot looking entirely different that what you had planned. 
+
+![Source: Andrew Heiss](/img/ggplot-layers.png)
+
+In this post we'll do a more in-depth exploration of how `ggplot` builds your plot in different ways based on when and where you specify certain aesthetics. Hopefully by the end you'll feel less like `ggplot` is an onion, and more like its a cake! 
+
+<iframe src="https://giphy.com/embed/pyQV6sy5qOALu" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/shrek-pyQV6sy5qOALu">via GIPHY</a></p>
+
+::: {.fyi}
+**Learning Objectives**
+
+After this post you will be able to:
+
+- Alter the appearance of your plot by specifying aesthetics in different orders
+- Use different color palettes to make more accessible plots
+- Build a faceted plot
+- Use subsets of your data in different ways to make more informative plots
+:::
+
+## Step 0: Loading and installing necessary packages
+
+As in our session, we'll be using data from the `palmerpenguins` package to generate our plots. If you worked through that document, you should already have this package installed, if not you'll need to install it with `install.packages("palmerpenguins")`. We'll also be loading in the `tidyverse` family of packages. Remember to run code in a document like this use **CMD + Enter** on Macs and **Ctrl + Enter** on PCs.
+
+```{r setup}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+## Step 1: Generating a scatterplot
+
+Before any plotting happens let's remind ourselves of the data we have to work with: 
+
+```{r}
+penguins
+```
+
+There are several columns of numeric data such as `bill_length_mm` and `body_mass_g` as well as a few columns of categorical data like `species` and `island`. Since we have so much numerical data it might behoove us to look at the distribution of the data in a histogram before we start making more informative plots. 
+
+Let's first look at the distribution of `body_mass_g`, since this could vary drastically between and within species. 
+
+```{r}
+ggplot(penguins, mapping = aes(x = body_mass_g)) +
+  geom_histogram()
+```
+
+::: {.note}
+**Syntax alert!**
+
+Notice that I only specified an `x` aesthetic. Since we are making a histogram, which will count how many observations fall into bins of values, we don't need to specify the `y` aesthetic as `geom_histogram` will effectively be calculating that for us.
+:::
+
+Great, we have a plot but it doesn't tell us much. Its covering the distribution of weight of *all* the penguins without splitting it up by species. Let's add in a `color` aesthetic to visualize the different species weight distributions:
+
+```{r}
+ggplot(penguins, mapping = aes(x = body_mass_g, color = species)) +
+  geom_histogram()
+```
+
+Well we have color now, but just on the border of the histogram bars. If we want to fill in the bars with color we need to specify the `fill` aesthetic instead:
+
+```{r}
+ggplot(penguins, mapping = aes(x = body_mass_g, fill = species)) +
+  geom_histogram()
+```
+
+We can now see the three separate distributions of penguin weight, but there is still a lot of overlap and it is difficult to see the full distribution of the Chinstrap and Adelie data. 
+
+```{r}
+ggplot(penguins, mapping = aes(x = body_mass_g, fill = species)) +
+  geom_histogram() +
+  facet_wrap(~ species)
+```
