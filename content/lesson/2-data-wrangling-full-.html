@@ -1,0 +1,464 @@
+---
+title: "Data Wrangling with the Tidyverse"
+linktitle: "Data Wrangling with the Tidyverse"
+author: Montana Kay Lara
+date: '2021-11-05'
+slug: data-wrangling-with-the-tidyverse
+authors: [montana]
+lastmod: '2021-09-28T13:30:36-04:00'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+menu:
+  lesson:
+    parent: Lessons
+    weight: 1
+type: docs
+weight: 1
+editor_options:
+  chunk_output_type: console
+---
+
+<script src="/lesson/2-data-wrangling-full-_files/header-attrs-2.11/header-attrs.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#i.-setup">I. Setup</a></li>
+<li><a href="#ii.-examine-your-data">II. Examine your data</a></li>
+<li><a href="#iii.-use-select-to-subset">III. Use select() to subset</a></li>
+<li><a href="#iv.-use-filter-to-subset">IV. Use filter() to subset</a></li>
+<li><a href="#v.-new-data-frames-and-using-pipes">V. New data frames and using pipes</a></li>
+<li><a href="#vi.-use-group_by-and-summarize">VI. Use group_by() and summarize()</a></li>
+<li><a href="#vii.-use-mutate-to-add-columns">VII. Use mutate() to add columns</a></li>
+<li><a href="#viii.-plotting-with-ggplot">VIII. Plotting with ggplot()</a></li>
+<li><a href="#other-resources">Other resources</a></li>
+<li><a href="#quick-tips-for-macs">Quick tips for macs</a></li>
+</ul>
+</div>
+
+<div class="fyi">
+<p><strong>Learning Objectives</strong></p>
+<p>After this session you will be able to:</p>
+<ul>
+<li>Use <code>select</code> to subset variables</li>
+<li>Use <code>filter</code> to subset observations</li>
+<li>Use pipes to modify data tables</li>
+<li>Use <code>group_by</code> and <code>summarize</code></li>
+<li>Use <code>mutate</code> to create new variables</li>
+<li>Make more plots with ggplot</li>
+</ul>
+</div>
+<p><strong>You can download a blank copy of this document</strong> <a href="/files/2-data-wrangling-blank.Rmd">here</a></p>
+<p>This RMarkdown is for the NGP-CMB R Seminar Data Wrangling session. It is adapted from the R for Reproducible Scientific Analysis lesson from The Carpentries <a href="http://swcarpentry.github.io/r-novice-gapminder/13-dplyr/index.html" class="uri">http://swcarpentry.github.io/r-novice-gapminder/13-dplyr/index.html</a></p>
+<div id="i.-setup" class="section level2">
+<h2>I. Setup</h2>
+<p>Begin by installing and loading the packages you will need for your analysis. It is good practice to always have a chunk labeled <code>setup</code> that will run first that includes all the packages you use, making it easier for someone trying to replicate your analysis.</p>
+<p>Here, we will use the <code>gapminder</code> package for our dataset and the <code>tidyverse</code> family of functions. If you do not have these, you can install them first using <code>install.packages()</code>.</p>
+<pre class="r"><code>#install.packages(&quot;tidyverse&quot;)
+#install.packages(&quot;gapminder&quot;)
+library(tidyverse) #tidyverse includes dplyr</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.5     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
+## ✓ readr   2.0.2     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(gapminder)</code></pre>
+<pre class="r"><code>#in case the gapminder install isn&#39;t working
+#gapminder &lt;- read.csv(&quot;https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder_data.csv&quot;, stringsAsFactors = TRUE)</code></pre>
+</div>
+<div id="ii.-examine-your-data" class="section level2">
+<h2>II. Examine your data</h2>
+<p>Always begin by first looking at your data. Notice the structure, the variable types, missing data points, etc. This will inform your analysis.</p>
+<p>To see what information is stored in an object in R, type out the name. Here, <code>gapminder</code> is our object, put your cursor on that line, then type <strong>Cmd + Enter</strong> for Macs or <strong>Ctrl + Enter</strong> for PCs. The first ten rows will appear below the chunk.</p>
+<pre class="r"><code># You can see your data by typing the dataset name: gapminder, or using the function str()
+gapminder</code></pre>
+<pre><code>## # A tibble: 1,704 × 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.
+##  5 Afghanistan Asia       1972    36.1 13079460      740.
+##  6 Afghanistan Asia       1977    38.4 14880372      786.
+##  7 Afghanistan Asia       1982    39.9 12881816      978.
+##  8 Afghanistan Asia       1987    40.8 13867957      852.
+##  9 Afghanistan Asia       1992    41.7 16317921      649.
+## 10 Afghanistan Asia       1997    41.8 22227415      635.
+## # … with 1,694 more rows</code></pre>
+<pre class="r"><code>str(gapminder)</code></pre>
+<pre><code>## tibble [1,704 × 6] (S3: tbl_df/tbl/data.frame)
+##  $ country  : Factor w/ 142 levels &quot;Afghanistan&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ continent: Factor w/ 5 levels &quot;Africa&quot;,&quot;Americas&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ year     : int [1:1704] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+##  $ lifeExp  : num [1:1704] 28.8 30.3 32 34 36.1 ...
+##  $ pop      : int [1:1704] 8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
+##  $ gdpPercap: num [1:1704] 779 821 853 836 740 ...</code></pre>
+<div class="note">
+<p><strong>Vocabulary Alert!</strong></p>
+<p>Our data should be in a tidy format with each <mark>variable</mark> in a distinct <mark>column</mark> and each <mark style="background-color: lightblue">observation</mark> in its own <mark style="background-color: lightblue">row</mark></p>
+</div>
+<p>Using the <code>dplyr</code> package helps us avoid mistakes and errors that can be caused by repetition, and makes “tidy” code. Having our data in a tidy format allows for more reproducible analysis.</p>
+<p><img src="/img/tidydataimg.png" /></p>
+</div>
+<div id="iii.-use-select-to-subset" class="section level2">
+<h2>III. Use select() to subset</h2>
+<p>Once we have examined our data and understood the structure of variables and observations, we can use the <code>select()</code> function to subset only the variables we specify.</p>
+<pre class="r"><code># 1. Use select() to subset the variables (columns) country, year, and gdpPercap
+#hint - you can use the function colnames() to see the column names, or just type gapminder into the console to view the first 10 lines
+colnames(gapminder)</code></pre>
+<pre><code>## [1] &quot;country&quot;   &quot;continent&quot; &quot;year&quot;      &quot;lifeExp&quot;   &quot;pop&quot;       &quot;gdpPercap&quot;</code></pre>
+<pre class="r"><code>gapminder</code></pre>
+<pre><code>## # A tibble: 1,704 × 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.
+##  5 Afghanistan Asia       1972    36.1 13079460      740.
+##  6 Afghanistan Asia       1977    38.4 14880372      786.
+##  7 Afghanistan Asia       1982    39.9 12881816      978.
+##  8 Afghanistan Asia       1987    40.8 13867957      852.
+##  9 Afghanistan Asia       1992    41.7 16317921      649.
+## 10 Afghanistan Asia       1997    41.8 22227415      635.
+## # … with 1,694 more rows</code></pre>
+<pre class="r"><code>select(gapminder, country, year, gdpPercap)</code></pre>
+<pre><code>## # A tibble: 1,704 × 3
+##    country      year gdpPercap
+##    &lt;fct&gt;       &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan  1952      779.
+##  2 Afghanistan  1957      821.
+##  3 Afghanistan  1962      853.
+##  4 Afghanistan  1967      836.
+##  5 Afghanistan  1972      740.
+##  6 Afghanistan  1977      786.
+##  7 Afghanistan  1982      978.
+##  8 Afghanistan  1987      852.
+##  9 Afghanistan  1992      649.
+## 10 Afghanistan  1997      635.
+## # … with 1,694 more rows</code></pre>
+<pre class="r"><code># 2. Remove the `continent` column 
+#hint - use the operator &quot;!&quot; or &quot;-&quot;
+select(gapminder, -continent)</code></pre>
+<pre><code>## # A tibble: 1,704 × 5
+##    country      year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan  1952    28.8  8425333      779.
+##  2 Afghanistan  1957    30.3  9240934      821.
+##  3 Afghanistan  1962    32.0 10267083      853.
+##  4 Afghanistan  1967    34.0 11537966      836.
+##  5 Afghanistan  1972    36.1 13079460      740.
+##  6 Afghanistan  1977    38.4 14880372      786.
+##  7 Afghanistan  1982    39.9 12881816      978.
+##  8 Afghanistan  1987    40.8 13867957      852.
+##  9 Afghanistan  1992    41.7 16317921      649.
+## 10 Afghanistan  1997    41.8 22227415      635.
+## # … with 1,694 more rows</code></pre>
+<pre class="r"><code>select(gapminder, !continent)</code></pre>
+<pre><code>## # A tibble: 1,704 × 5
+##    country      year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan  1952    28.8  8425333      779.
+##  2 Afghanistan  1957    30.3  9240934      821.
+##  3 Afghanistan  1962    32.0 10267083      853.
+##  4 Afghanistan  1967    34.0 11537966      836.
+##  5 Afghanistan  1972    36.1 13079460      740.
+##  6 Afghanistan  1977    38.4 14880372      786.
+##  7 Afghanistan  1982    39.9 12881816      978.
+##  8 Afghanistan  1987    40.8 13867957      852.
+##  9 Afghanistan  1992    41.7 16317921      649.
+## 10 Afghanistan  1997    41.8 22227415      635.
+## # … with 1,694 more rows</code></pre>
+<pre class="r"><code># 3. Select only the columns that start with the letter &quot;c&quot;
+#hint - use the helper function starts_with()
+select(gapminder, starts_with(&quot;c&quot;))</code></pre>
+<pre><code>## # A tibble: 1,704 × 2
+##    country     continent
+##    &lt;fct&gt;       &lt;fct&gt;    
+##  1 Afghanistan Asia     
+##  2 Afghanistan Asia     
+##  3 Afghanistan Asia     
+##  4 Afghanistan Asia     
+##  5 Afghanistan Asia     
+##  6 Afghanistan Asia     
+##  7 Afghanistan Asia     
+##  8 Afghanistan Asia     
+##  9 Afghanistan Asia     
+## 10 Afghanistan Asia     
+## # … with 1,694 more rows</code></pre>
+</div>
+<div id="iv.-use-filter-to-subset" class="section level2">
+<h2>IV. Use filter() to subset</h2>
+<p><code>select()</code> returns a subset of specified variables (columns)
+<code>filter()</code> returns a subset of specified observations (rows)</p>
+<pre class="r"><code># 1. Use filter() to subset only European countries 
+#hint - use &quot;==&quot;, and be careful about when to use quotations
+filter(gapminder, continent == &quot;Europe&quot;)</code></pre>
+<pre><code>## # A tibble: 360 × 6
+##    country continent  year lifeExp     pop gdpPercap
+##    &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;     &lt;dbl&gt;
+##  1 Albania Europe     1952    55.2 1282697     1601.
+##  2 Albania Europe     1957    59.3 1476505     1942.
+##  3 Albania Europe     1962    64.8 1728137     2313.
+##  4 Albania Europe     1967    66.2 1984060     2760.
+##  5 Albania Europe     1972    67.7 2263554     3313.
+##  6 Albania Europe     1977    68.9 2509048     3533.
+##  7 Albania Europe     1982    70.4 2780097     3631.
+##  8 Albania Europe     1987    72   3075321     3739.
+##  9 Albania Europe     1992    71.6 3326498     2497.
+## 10 Albania Europe     1997    73.0 3428038     3193.
+## # … with 350 more rows</code></pre>
+<pre class="r"><code># 2. Filter rows of only European countries with a year above 1960
+filter(gapminder, continent == &quot;Europe&quot;, year &gt; 1960)</code></pre>
+<pre><code>## # A tibble: 300 × 6
+##    country continent  year lifeExp     pop gdpPercap
+##    &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;     &lt;dbl&gt;
+##  1 Albania Europe     1962    64.8 1728137     2313.
+##  2 Albania Europe     1967    66.2 1984060     2760.
+##  3 Albania Europe     1972    67.7 2263554     3313.
+##  4 Albania Europe     1977    68.9 2509048     3533.
+##  5 Albania Europe     1982    70.4 2780097     3631.
+##  6 Albania Europe     1987    72   3075321     3739.
+##  7 Albania Europe     1992    71.6 3326498     2497.
+##  8 Albania Europe     1997    73.0 3428038     3193.
+##  9 Albania Europe     2002    75.7 3508512     4604.
+## 10 Albania Europe     2007    76.4 3600523     5937.
+## # … with 290 more rows</code></pre>
+</div>
+<div id="v.-new-data-frames-and-using-pipes" class="section level2">
+<h2>V. New data frames and using pipes</h2>
+<p>We often need to combine multiple functions together using pipes (<code>%&gt;%</code>). Pipes allow the data to be passed along onto the next step. Multiple lines of code can be run in the same command using multiple pipes. Because pipes are combining functions, the order in which they are written matter!</p>
+<p>We will also create new data tables with our subsets of data. We can do this by first creating a new object, assigning it (<code>&lt;-</code>) to the data frame to be manipulated, and using pipes to combine several functions to subset the data.</p>
+<pre class="r"><code># 1. Use a pipe to filter only European countries and select only the variables country, year, and gdpPercap
+#hint - notice how R recognizes the objects in your data frame now
+#hint - the order of functions matter!
+gapminder %&gt;% 
+  filter(continent == &quot;Europe&quot;) %&gt;% 
+  select(country, year, gdpPercap)</code></pre>
+<pre><code>## # A tibble: 360 × 3
+##    country  year gdpPercap
+##    &lt;fct&gt;   &lt;int&gt;     &lt;dbl&gt;
+##  1 Albania  1952     1601.
+##  2 Albania  1957     1942.
+##  3 Albania  1962     2313.
+##  4 Albania  1967     2760.
+##  5 Albania  1972     3313.
+##  6 Albania  1977     3533.
+##  7 Albania  1982     3631.
+##  8 Albania  1987     3739.
+##  9 Albania  1992     2497.
+## 10 Albania  1997     3193.
+## # … with 350 more rows</code></pre>
+<pre class="r"><code># 2. In one command, create a new data frame called &quot;Europe_gdp_1960s&quot; that has only European countries from the 1960s, and contains the variables country, year, gdpPercap
+#hint - use `&lt;-` to create a new data table
+#hint - the order of functions matter!
+Europe_gdp_1960s &lt;- gapminder %&gt;% 
+  filter(continent == &quot;Europe&quot;, year &gt;= 1960, year &lt; 1970) %&gt;% 
+  select(country, year, gdpPercap)</code></pre>
+</div>
+<div id="vi.-use-group_by-and-summarize" class="section level2">
+<h2>VI. Use group_by() and summarize()</h2>
+<p>Notice the continent variable is categorical. If we wanted to group this dataset by continent, we do NOT have to <code>filter()</code> several times to separate the data into individual continent groups. Instead, we can simply use <code>group_by()</code>, which will use every unique continent that you would have used in <code>filter()</code>. A <code>grouped_df</code> can be thought of as a <code>list</code> where each item in the <code>list</code> is a <code>data.frame</code> which contains only the rows that correspond to the a particular value <code>continent</code></p>
+<p><img src="/img/groupbyimg.png" /></p>
+<pre class="r"><code>#hint- use str() to see the difference between gapminder and the grouped dataset
+str(gapminder)</code></pre>
+<pre><code>## tibble [1,704 × 6] (S3: tbl_df/tbl/data.frame)
+##  $ country  : Factor w/ 142 levels &quot;Afghanistan&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ continent: Factor w/ 5 levels &quot;Africa&quot;,&quot;Americas&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ year     : int [1:1704] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+##  $ lifeExp  : num [1:1704] 28.8 30.3 32 34 36.1 ...
+##  $ pop      : int [1:1704] 8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
+##  $ gdpPercap: num [1:1704] 779 821 853 836 740 ...</code></pre>
+<pre class="r"><code>str(group_by(gapminder, continent))</code></pre>
+<pre><code>## grouped_df [1,704 × 6] (S3: grouped_df/tbl_df/tbl/data.frame)
+##  $ country  : Factor w/ 142 levels &quot;Afghanistan&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ continent: Factor w/ 5 levels &quot;Africa&quot;,&quot;Americas&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ year     : int [1:1704] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+##  $ lifeExp  : num [1:1704] 28.8 30.3 32 34 36.1 ...
+##  $ pop      : int [1:1704] 8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
+##  $ gdpPercap: num [1:1704] 779 821 853 836 740 ...
+##  - attr(*, &quot;groups&quot;)= tibble [5 × 2] (S3: tbl_df/tbl/data.frame)
+##   ..$ continent: Factor w/ 5 levels &quot;Africa&quot;,&quot;Americas&quot;,..: 1 2 3 4 5
+##   ..$ .rows    : list&lt;int&gt; [1:5] 
+##   .. ..$ : int [1:624] 25 26 27 28 29 30 31 32 33 34 ...
+##   .. ..$ : int [1:300] 49 50 51 52 53 54 55 56 57 58 ...
+##   .. ..$ : int [1:396] 1 2 3 4 5 6 7 8 9 10 ...
+##   .. ..$ : int [1:360] 13 14 15 16 17 18 19 20 21 22 ...
+##   .. ..$ : int [1:24] 61 62 63 64 65 66 67 68 69 70 ...
+##   .. ..@ ptype: int(0) 
+##   ..- attr(*, &quot;.drop&quot;)= logi TRUE</code></pre>
+<p><code>group_by()</code> is best used when piped with other functions. We can combine it with the <code>summarize()</code> function to create new variables for each of the groups. Here, we will first split our data into multiple groups (for each continent), then run other functions summarizing data within those groups.</p>
+<p><img src="/img/summariseimg.png" /></p>
+<pre class="r"><code># 1. In one command, create a new data frame called &quot;gdp_bycontinents&quot; with the mean gdpPercap for each continent
+#hint - you have to create a new variable and name it something within the summarise() function 
+#hint - use the mean() function
+gdp_bycontinents &lt;- gapminder %&gt;% 
+  group_by(continent) %&gt;% 
+  summarise(meangdp = mean(gdpPercap))
+
+# 2. In one command, create a new data frame (named whatever you want) with the mean gdpPercap grouped by continent and year
+#hint - the function `group_by()` allows us to group by multiple variables
+gdp_bycontinents_year &lt;- gapminder %&gt;% 
+  group_by(continent, year) %&gt;% 
+  summarise(meangdp = mean(gdpPercap))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;continent&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code># 3. Using the same command from #2, add mean pop and sd of gdp and pop
+#hint- summarize() allows you to create multiple new variables in the same function
+gdp_bycontinents_year &lt;- gapminder %&gt;% 
+  group_by(continent, year) %&gt;% 
+  summarise(meangdp = mean(gdpPercap), 
+            sdgdp = sd(gdpPercap), 
+            meanpop = mean(pop), 
+            sdpop = sd(pop))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;continent&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code># 4. Create a new data frame called &quot;lifeExp_bycountry&quot; with the mean life expectancy for each country
+lifeExp_bycountry &lt;- gapminder %&gt;% 
+  group_by(country) %&gt;% 
+  summarise(meanlife = mean(lifeExp))</code></pre>
+</div>
+<div id="vii.-use-mutate-to-add-columns" class="section level2">
+<h2>VII. Use mutate() to add columns</h2>
+<p>We can create new variables within our original data frame using <code>mutate()</code></p>
+<pre class="r"><code># Create a new variable (column) for GDP in billions
+#hint - gdp_billion = GDP Per capita * population / 10^9
+gapminder_w_gdpbillion &lt;- gapminder %&gt;% 
+  mutate(gdp_billion = gdpPercap * pop/10^9)</code></pre>
+</div>
+<div id="viii.-plotting-with-ggplot" class="section level2">
+<h2>VIII. Plotting with ggplot()</h2>
+<p>First, let’s make some plots with the data.</p>
+<pre class="r"><code># Create a new plot with gdp per capita on the x axis and life expectancy on the y axis
+gapminder %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-1.png" width="672" /></p>
+<pre class="r"><code># Make things easier to see by using a log scale with the function `scale_x_log10()` The log transformation can be used to make highly skewed distributions less skewed. This can be valuable for making patterns in the data more interpretable.
+gapminder %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  scale_x_log10()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-2.png" width="672" /></p>
+<pre class="r"><code># There are a lot of points, so we can make the points transparent using alpha
+gapminder %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(alpha = 0.5) +
+  scale_x_log10()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-3.png" width="672" /></p>
+<pre class="r"><code># Make the size of the points correspond to population size
+gapminder %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop)) +
+  geom_point(alpha = 0.5) +
+  scale_x_log10()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-4.png" width="672" /></p>
+<pre class="r"><code># Add color for the different countries (but take out the legend with show.legend = FALSE because it will take up too much space)
+gapminder %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = country)) +
+  geom_point(show.legend = FALSE, alpha = 0.5) +
+  scale_x_log10()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-5.png" width="672" /></p>
+<pre class="r"><code># For different colors, play around with scale_color
+gapminder %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
+  geom_point(show.legend = FALSE, alpha = 0.5) +
+  scale_x_log10() +
+  scale_color_viridis_d()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-6.png" width="672" /></p>
+<pre class="r"><code># Add better x and y labels
+gapminder %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
+  geom_point(show.legend = FALSE, alpha = 0.5) +
+  scale_x_log10() +
+  scale_color_viridis_d() +
+  labs(x = &quot;GDP Per Capita&quot;, 
+       y = &quot;Life Expectancy&quot;,
+       title = &quot;Gapminder GDP and Life Expectancy&quot;)</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-7.png" width="672" /></p>
+<pre class="r"><code># Add a theme
+gapminder %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
+  geom_point(show.legend = FALSE, alpha = 0.5) +
+  scale_x_log10() +
+  scale_color_viridis_d() +
+  labs(x = &quot;GDP Per Capita&quot;, 
+       y = &quot;Life Expectancy&quot;,
+       title = &quot;Gapminder GDP and Life Expectancy&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-8.png" width="672" /></p>
+<p>Now we can use the functions we just learned and pipes to pass along the filtered and subsetted data to <code>ggplot()</code>.</p>
+<pre class="r"><code># Create a plot with just the Americas
+gapminder %&gt;% 
+  filter(continent == &quot;Americas&quot;) %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
+  geom_point(show.legend = FALSE, alpha = 0.5) +
+  scale_x_log10() +
+  scale_color_viridis_d() +
+  labs(x = &quot;GDP Per Capita&quot;, 
+       y = &quot;Life Expectancy&quot;,
+       title = &quot;Gapminder GDP and Life Expectancy&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_filtered-1.png" width="672" /></p>
+<pre class="r"><code># Create a plot with just the year 1982
+gapminder %&gt;% 
+  filter(year == 1982) %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
+  geom_point(show.legend = FALSE, alpha = 0.5) +
+  scale_x_log10() +
+  scale_color_viridis_d() +
+  labs(x = &quot;GDP Per Capita&quot;, 
+       y = &quot;Life Expectancy&quot;,
+       title = &quot;Gapminder GDP and Life Expectancy&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_filtered-2.png" width="672" /></p>
+<p>We know there is a lot of different variables in this dataset, so let’s take them apart to see them individually</p>
+<pre class="r"><code># Create a grid of plots for gdp x lifexp, for each continent
+#hint- use facet_wrap()
+gapminder %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
+  geom_point(show.legend = FALSE, alpha = 0.5) +
+  scale_x_log10() +
+  facet_wrap(~continent, ncol = 1) +
+  scale_color_viridis_d() +
+  labs(x = &quot;GDP Per Capita&quot;, 
+       y = &quot;Life Expectancy&quot;,
+       title = &quot;Gapminder GDP and Life Expectancy&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_facet-1.png" width="672" /></p>
+<pre class="r"><code># put the grid in one column
+
+# Do the same for all the countries in Africa (does not need to be 1 column)
+gapminder %&gt;% 
+  filter(continent == &quot;Africa&quot;) %&gt;% 
+  ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
+  geom_point(show.legend = FALSE, alpha = 0.5) +
+  scale_x_log10() +
+  facet_wrap(~country) +
+  scale_color_viridis_d() +
+  labs(x = &quot;GDP Per Capita&quot;, 
+       y = &quot;Life Expectancy&quot;,
+       title = &quot;Gapminder GDP and Life Expectancy&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_facet-2.png" width="672" /></p>
+<hr />
+</div>
+<div id="other-resources" class="section level2">
+<h2>Other resources</h2>
+<ul>
+<li><a href="http://r4ds.had.co.nz/">R for Data Science</a></li>
+<li><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">Data Wrangling Cheat sheet</a></li>
+<li><a href="https://dplyr.tidyverse.org/">Introduction to dplyr</a></li>
+<li><a href="https://www.rstudio.com/resources/webinars/data-wrangling-with-r-and-rstudio/">Data wrangling with R and RStudio</a></li>
+</ul>
+</div>
+<div id="quick-tips-for-macs" class="section level2">
+<h2>Quick tips for macs</h2>
+<p>(Switch out control for command on PC)
+1. To run a single line in an RMarkdown, use command + shift
+2. To add another chunk in an RMarkdown, use the shortcut: command + option + “i”
+3. To add a pipe, use the shortcut: command + shift + “m”
+4. Use <code>#</code> to add headers</p>
+</div>

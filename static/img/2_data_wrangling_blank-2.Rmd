@@ -1,0 +1,241 @@
+---
+title: "Data Wrangling with the Tidyverse"
+author: "Montana Kay Lara"
+date: "11/5/2021"
+output: html_document
+---
+
+::: {.fyi}
+**Learning Objectives**
+
+After this session you will be able to:
+
+- Use `select` to subset variables
+- Use `filter` to subset observations
+- Use pipes to modify data tables
+- Use `group_by` and `summarize` 
+- Use `mutate` to create new variables 
+- Make more plots with ggplot
+:::
+
+**You can download a blank copy of this document**
+[here]()
+
+This RMarkdown is for the NGP-CMB R Seminar Data Wrangling session. It is adapted from the R for Reproducible Scientific Analysis lesson from The Carpentries http://swcarpentry.github.io/r-novice-gapminder/13-dplyr/index.html 
+
+## I. Setup
+
+Begin by installing and loading the packages you will need for your analysis. It is good practice to always have a chunk labeled `setup` that will run first that includes all the packages you use, making it easier for someone trying to replicate your analysis. 
+
+Here, we will use the `gapminder` package for our dataset and the `tidyverse` family of functions. If you do not have these, you can install them first using `install.packages()`. 
+
+```{r setup}
+#install.packages("tidyverse")
+#install.packages("gapminder")
+library(tidyverse) #tidyverse includes dplyr
+library(gapminder)
+```
+
+```{r data}
+#in case the gapminder install isn't working
+#gapminder <- read.csv("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder_data.csv", stringsAsFactors = TRUE)
+```
+
+
+## II. Examine your data
+
+Always begin by first looking at your data. Notice the structure, the variable types, missing data points, etc. This will inform your analysis. 
+
+To see what information is stored in an object in R, type out the name. Here, `gapminder` is our object, put your cursor on that line, then type **Cmd + Enter** for Macs or **Ctrl + Enter** for PCs. The first ten rows will appear below the chunk. 
+```{r data_structure}
+# You can see your data by typing the dataset name: gapminder, or using the function str()
+gapminder
+str(gapminder)
+```
+
+::: {.note}
+**Vocabulary Alert!**
+
+Our data should be in a tidy format with each <mark>variable</mark> in a distinct  <mark>column</mark> and each <mark style="background-color: lightblue">observation</mark> in its own <mark style="background-color: lightblue">row</mark>
+:::
+
+Using the `dplyr` package helps us avoid mistakes and errors that can be caused by repetition, and makes "tidy" code. Having our data in a tidy format allows for more reproducible analysis. 
+
+```{r tidydataimg, echo=FALSE}
+knitr::include_graphics()
+```
+
+
+## III. Use select() to subset
+
+Once we have examined our data and understood the structure of variables and observations, we can use the `select()` function to subset only the variables we specify. 
+
+```{r select}
+# 1. Use select() to subset the variables (columns) country, year, and gdpPercap
+#hint - you can use the function colnames() to see the column names, or just type gapminder into the console to view the first 10 lines
+
+
+# 2. Remove the `continent` column 
+#hint - use the operator "!" or "-"
+
+
+# 3. Select only the columns that start with the letter "c"
+#hint - use the helper function starts_with()
+
+
+```
+
+
+## IV. Use filter() to subset
+
+`select()` returns a subset of specified variables (columns)
+`filter()` returns a subset of specified observations (rows)
+
+```{r filter}
+# 1. Use filter() to subset only European countries 
+#hint - use "==", and be careful about when to use quotations
+
+
+# 2. Filter rows of only European countries with a year above 1960
+
+```
+
+
+## V. New data frames and using pipes
+
+We often need to combine multiple functions together using pipes (`%>%`). Pipes allow the data to be passed along onto the next step. Multiple lines of code can be run in the same command using multiple pipes. Because pipes are combining functions, the order in which they are written matter!
+
+We will also create new data tables with our subsets of data. We can do this by first creating a new object, setting it equal (`<-`) to the data frame to be manipulated, and using pipes to combine several functions to subset the data.
+
+```{r pipes_and_newtables}
+# 1. Use a pipe to filter only European countries and select only the variables country, year, and gdpPercap
+#hint - notice how R recognizes the objects in your data frame now
+#hint - the order of functions matter!
+
+
+# 2. In one command, create a new data frame called "Europe_gdp_1960s" that has only European countries from the 1960s, and contains the variables country, year, gdpPercap
+#hint - use `<-` to create a new data table
+#hint - the order of functions matter!
+
+```
+
+
+## VI. Use group_by() and summarize()
+
+Notice the continent variable is categorical. If we wanted to group this dataset by continent, we do NOT have to `filter()` several times to separate the data into individual continent groups. Instead, we can simply use `group_by()`, which will use every unique continent that you would have used in `filter()`. A `grouped_df` can be thought of as a `list` where each item in the `list` is a `data.frame` which contains only the rows that correspond to the a particular value `continent`
+
+```{r groupbyimg, echo=FALSE}
+knitr::include_graphics()
+```
+
+```{r group_by}
+#hint- use str() to see the difference between gapminder and the grouped dataset
+
+```
+
+`group_by()` is best used when piped with other functions. We can combine it with the `summarize()` function to create new variables for each of the groups. Here, we will first split our data into multiple groups (for each continent), then run other functions summarizing data within those groups. 
+
+```{r summarizeimg, echo=FALSE}
+knitr::include_graphics()
+```
+
+```{r summarize}
+# 1. In one command, create a new data frame called "gdp_bycontinents" with the mean gdpPercap for each continent
+#hint - you have to create a new variable and name it something within the summarise() function 
+#hint - use the mean() function
+
+
+# 2. In one command, create a new data frame (named whatever you want) with the mean gdpPercap grouped by continent and year
+#hint - the function `group_by()` allows us to group by multiple variables
+
+  
+
+# 3. Using the same command from #2, add mean pop and sd of gdp and pop
+#hint- summarize() allows you to create multiple new variables in the same function
+
+
+
+# 4. Create a new data frame called "lifeExp_bycountry" with the mean life expectancy for each country
+
+
+```
+
+## VII. Use mutate() to add columns
+
+We can create new variables within our original data frame using `mutate()`
+
+```{r mutate}
+# Create a new variable (column) for GDP in billions
+#hint - gdp_billion = GDP Per capita * population / 10^9
+
+
+```
+
+
+## VIII. Plotting with ggplot()
+
+First, let's make some plots with the data.
+
+```{r ggplot_basic}
+# Create a new plot with gdp per capita on the x axis and life expectancy on the y axis
+
+
+
+# Make things easier to see by using a log scale with the function `scale_x_log10()` The log transformation can be used to make highly skewed distributions less skewed. This can be valuable for making patterns in the data more interpretable.
+
+
+# There are a lot of points, so we can make the points transparent using alpha
+
+
+# Make the size of the points correspond to population size
+
+
+# Add color for the different countries (but take out the legend with show.legend = FALSE because it will take up too much space)
+
+
+# For different colors, play around with scale_color
+
+# Add better x and y labels
+
+
+# Add a theme
+
+```
+
+Now we can use the functions we just learned and pipes to pass along the filtered and subsetted data to `ggplot()`.  
+
+```{r ggplot_filtered}
+# Create a plot with just the Americas
+
+
+# Create a plot with just the year 1982
+
+```
+
+We know there is a lot of different variables in this dataset, so let's take them apart to see them individually 
+
+```{r ggplot_facet}
+# Create a grid of plots for gdp x lifexp, for each continent
+#hint- use facet_wrap()
+
+# put the grid in one column
+
+# Do the same for all the countries in Africa (does not need to be 1 column)
+
+```
+
+
+
+-------------------------------------------
+## Other resources 
+* [R for Data Science](http://r4ds.had.co.nz/)
+* [Data Wrangling Cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+* [Introduction to dplyr](https://dplyr.tidyverse.org/)
+* [Data wrangling with R and RStudio](https://www.rstudio.com/resources/webinars/data-wrangling-with-r-and-rstudio/)
+
+## Quick tips for macs
+(Switch out control for command on PC)
+1. To run a single line in an RMarkdown, use command + shift
+2. To add another chunk in an RMarkdown, use the shortcut: command + option + "i" 
+3. To add a pipe, use the shortcut: command + shift + "m"
+4. Use `#` to add headers 
