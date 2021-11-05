@@ -85,7 +85,7 @@ schedule <- tibble::tribble(~Date, ~Session_Type, ~Room, ~Session_Title, ~Instru
                             "10/19/2021", "Office Hours", "Zoom", "Office Hours 2", "Jeff and Montana",
                             "11/05/2021", "Seminar", "HSRF 400", "Wrangling Data with dplyr", "Jeff and Montana",
                             "11/09/2021", "Office Hours", "Zoom", "Office Hours 3", "Jeff and Montana",
-                            "11/23/2021", "Office Hours", "Zoom", "Office Hours 4", "Jeff and Montana",
+                            "11/16/2021", "Office Hours", "Zoom", "Office Hours 4", "Jeff and Montana",
                             "12/01/2021", "Seminar", "HSRF 400", "Advent of Code/Making the Most of Online Resources", "Jeff and Montana",
                             "12/07/2021", "Office Hours", "Zoom", "Office Hours 5", "Jeff and Montana",
                             "12/14/2021", "Office Hours", "Zoom", "Office Hours 6", "Jeff and Montana") %>% dplyr::mutate(Date = lubridate::parse_date_time(Date, orders = "mdy"))
