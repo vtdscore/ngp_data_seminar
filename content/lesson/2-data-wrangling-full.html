@@ -20,7 +20,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-<script src="/lesson/2-data-wrangling-full-_files/header-attrs-2.11/header-attrs.js"></script>
+<script src="/lesson/2-data-wrangling-full_files/header-attrs-2.11/header-attrs.js"></script>
 
 <div id="TOC">
 <ul>
@@ -336,38 +336,38 @@ gapminder_w_gdpbillion &lt;- gapminder %&gt;%
 gapminder %&gt;% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp)) +
   geom_point()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-1.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_basic-1.png" width="672" /></p>
 <pre class="r"><code># Make things easier to see by using a log scale with the function `scale_x_log10()` The log transformation can be used to make highly skewed distributions less skewed. This can be valuable for making patterns in the data more interpretable.
 gapminder %&gt;% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp)) +
   geom_point() +
   scale_x_log10()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-2.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_basic-2.png" width="672" /></p>
 <pre class="r"><code># There are a lot of points, so we can make the points transparent using alpha
 gapminder %&gt;% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp)) +
   geom_point(alpha = 0.5) +
   scale_x_log10()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-3.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_basic-3.png" width="672" /></p>
 <pre class="r"><code># Make the size of the points correspond to population size
 gapminder %&gt;% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop)) +
   geom_point(alpha = 0.5) +
   scale_x_log10()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-4.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_basic-4.png" width="672" /></p>
 <pre class="r"><code># Add color for the different countries (but take out the legend with show.legend = FALSE because it will take up too much space)
 gapminder %&gt;% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, colour = country)) +
   geom_point(show.legend = FALSE, alpha = 0.5) +
   scale_x_log10()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-5.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_basic-5.png" width="672" /></p>
 <pre class="r"><code># For different colors, play around with scale_color
 gapminder %&gt;% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
   geom_point(show.legend = FALSE, alpha = 0.5) +
   scale_x_log10() +
   scale_color_viridis_d()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-6.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_basic-6.png" width="672" /></p>
 <pre class="r"><code># Add better x and y labels
 gapminder %&gt;% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
@@ -377,7 +377,7 @@ gapminder %&gt;%
   labs(x = &quot;GDP Per Capita&quot;, 
        y = &quot;Life Expectancy&quot;,
        title = &quot;Gapminder GDP and Life Expectancy&quot;)</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-7.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_basic-7.png" width="672" /></p>
 <pre class="r"><code># Add a theme
 gapminder %&gt;% 
   ggplot(mapping = aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) +
@@ -388,7 +388,7 @@ gapminder %&gt;%
        y = &quot;Life Expectancy&quot;,
        title = &quot;Gapminder GDP and Life Expectancy&quot;) +
   theme_minimal()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_basic-8.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_basic-8.png" width="672" /></p>
 <p>Now we can use the functions we just learned and pipes to pass along the filtered and subsetted data to <code>ggplot()</code>.</p>
 <pre class="r"><code># Create a plot with just the Americas
 gapminder %&gt;% 
@@ -401,7 +401,7 @@ gapminder %&gt;%
        y = &quot;Life Expectancy&quot;,
        title = &quot;Gapminder GDP and Life Expectancy&quot;) +
   theme_minimal()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_filtered-1.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_filtered-1.png" width="672" /></p>
 <pre class="r"><code># Create a plot with just the year 1982
 gapminder %&gt;% 
   filter(year == 1982) %&gt;% 
@@ -413,7 +413,7 @@ gapminder %&gt;%
        y = &quot;Life Expectancy&quot;,
        title = &quot;Gapminder GDP and Life Expectancy&quot;) +
   theme_minimal()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_filtered-2.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_filtered-2.png" width="672" /></p>
 <p>We know there is a lot of different variables in this dataset, so let’s take them apart to see them individually</p>
 <pre class="r"><code># Create a grid of plots for gdp x lifexp, for each continent
 #hint- use facet_wrap()
@@ -427,7 +427,7 @@ gapminder %&gt;%
        y = &quot;Life Expectancy&quot;,
        title = &quot;Gapminder GDP and Life Expectancy&quot;) +
   theme_minimal()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_facet-1.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_facet-1.png" width="672" /></p>
 <pre class="r"><code># put the grid in one column
 
 # Do the same for all the countries in Africa (does not need to be 1 column)
@@ -442,7 +442,7 @@ gapminder %&gt;%
        y = &quot;Life Expectancy&quot;,
        title = &quot;Gapminder GDP and Life Expectancy&quot;) +
   theme_minimal()</code></pre>
-<p><img src="/lesson/2-data-wrangling-full-_files/figure-html/ggplot_facet-2.png" width="672" /></p>
+<p><img src="/lesson/2-data-wrangling-full_files/figure-html/ggplot_facet-2.png" width="672" /></p>
 <hr />
 </div>
 <div id="other-resources" class="section level2">
