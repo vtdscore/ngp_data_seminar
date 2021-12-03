@@ -1,8 +1,23 @@
 ---
-title: "R Bootcamp Session 6: Working with Bio Data"
-author: "Montana"
-date: "8/10/2021"
-output: html_document
+title: "Introduction to gprofiler2"
+linktitle: "Introduction to gprofiler2"
+author: Montana Kay Lara
+date: '2021-12-3'
+slug: intro-to-gprofiler2
+authors: [montana]
+lastmod: '2021-09-28T13:30:36-04:00'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+menu:
+  lesson:
+    parent: Lessons
+    weight: 1
+type: docs
+weight: 1
+editor_options:
+  chunk_output_type: console
 ---
 
 This workflow was created for the NGP-CMB R Seminar GProfiler session. 
