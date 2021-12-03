@@ -105,7 +105,7 @@ DGE_withname <- left_join(DGE_dataset, DGE_genenames, by = c("locus" = "input"))
 We can perform functional enrichment analysis of our gene list using the `gost()` function. Gprofiler:GOSt, or "Gene Ontology Statistics", uses your list of genes as the input query and outputs a new data frame with Gene Ontology (GO) terms, as well as available data from Kyoto Encyclopedia of Genes and Genomes (KEGG), Reactome (REAC), WikiPathways (WP), TRANSFAC (TF), miRTarBase (MIRNA), Human Protein Atlas (HPA), CORUM, and Human phenotype ontology (HP). g:GOSt supports close to 500 organisms and accepts hundreds of identifier types. The Gene Ontology (GO) project is a major bioinformatics initiative to  unify the representation of gene and gene product attributes across all species. The GO Consortium's mission is to develop an up-to-date, comprehensive, computational model of biological systems, from the molecular level to larger pathways, cellular and organism-level systems.
 
 Of note, this is only one function `gost()` from one R package from one source (Gprofiler). There are many ways to perform gene set enrichment analysis and further characterize your gene set lists. 
-```{r gost}
+```{r gost, eval=FALSE}
 # Use the function gost() to perform functional analysis on your list of genes
 DGE_gost <- gost(DGE_withname$name, organism = "mmusculus")
 
@@ -113,7 +113,7 @@ DGE_gost <- gost(DGE_withname$name, organism = "mmusculus")
 gostplot(DGE_gost)
 ```
 
-
+![](/img/gostplot.jpeg)
 
 Resources: 
 this is particularly helpful for working with expression data and looking at it https://scienceparkstudygroup.github.io/rna-seq-lesson/06-differential-analysis/index.html 
