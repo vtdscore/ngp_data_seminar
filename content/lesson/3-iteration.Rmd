@@ -32,11 +32,6 @@ After this session you will be able to:
 - Use a for-loop to do simple iterations
 :::
 
-```{r setup}
-library(tidyverse)
-library(palmerpenguins)
-```
-
 ## Iteration to save time and headaches
 
 Repetition is an issue in all parts of the scientific process from filling up individual PCR tubes one by one to repeating the same analysis over and over for different data sets in your project. Repeating ourselves takes time and can often lead to mistakes from losing track of which tube you just filled to forgetting which line of code you just ran. 
@@ -44,6 +39,11 @@ Repetition is an issue in all parts of the scientific process from filling up in
 Hadley Wickham, the creator and maintainer of many of the R packages in the `tidyverse`, says that "You should consider writing a function whenever you’ve copied and pasted a block of code more than twice (i.e. you now have three copies of the same code)." If you copy code over and over again you increase the chance of introducing a bug or that you'll accidentally overwrite data. 
 
 Let's work through an example. Below is a tibble with some numeric data. If you needed to calculate the mean of each of column of data you could do this column by column. First let's make our data:
+
+```{r setup, echo=FALSE}
+library(tidyverse)
+library(palmerpenguins)
+```
 
 ```{r}
 df <- tibble(
@@ -90,6 +90,7 @@ Which will would yield the exact same answers as above!
 ## The for-loop
 
 The for-loop syntax is outlined below. 
+
 1. First you need to specify your *output* object. In this case we just want individual mean values, so we can store those in a vector object. 
 
 2. Next you define the *sequence* the loop will walk through. Each run of the loop will assign `i` to a different value from `seq_along(df)` which are the 4 columns from above. 
@@ -137,7 +138,7 @@ plotting_data <- penguins %>%
 #
 for(i in names(plotting_data)) {
   
-  plot <- ggplot(plotting_data, aes(x = bill_length_mm, y = plotting_data[[i]])) + #use indexing to select the first column which is bill_length_mm
+  plot <- ggplot(plotting_data, aes(x = bill_length_mm, y = .data[[i]])) + #use indexing to select the first column which is bill_length_mm. The ".data" object is a placeholder that represents plotting_data
     geom_point()
   
   print(plot)
