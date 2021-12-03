@@ -1,0 +1,100 @@
+---
+title: "Pivot"
+linktitle: "Pivot"
+author: Montana Kay Lara
+date: '2021-12-3'
+slug: pivot
+authors: [montana]
+lastmod: '2021-09-28T13:30:36-04:00'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+menu:
+  lesson:
+    parent: Lessons
+    weight: 1
+type: docs
+weight: 1
+editor_options:
+  chunk_output_type: console
+---
+
+<script src="/lesson/3.1-pivot-full_files/header-attrs-2.11/header-attrs.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#ii.-pivot_longer">II. pivot_longer()</a></li>
+<li><a href="#iii.-pivot_wider">III. pivot_wider()</a></li>
+</ul>
+</div>
+
+<div class="fyi">
+<p><strong>Learning Objectives</strong></p>
+<p>After this session you will be able to:</p>
+<ul>
+<li>Use <code>pivot_longer</code> to subset variables</li>
+<li>Use <code>pivot_wider</code> to subset observations</li>
+</ul>
+</div>
+<p><strong>You can download a blank copy of this document</strong>
+<a href="/files/3.1-pivot-blank.RMD">here</a></p>
+<p>This RMarkdown is for the NGP-CMB R Seminar Pivot session. It is adapted from the Data frame Manipulation with tidyr lesson from The Carpentries <a href="http://swcarpentry.github.io/r-novice-gapminder/14-tidyr/index.html" class="uri">http://swcarpentry.github.io/r-novice-gapminder/14-tidyr/index.html</a></p>
+<p><img src="/img/pivotimg.jpeg" />
+## I. Setup</p>
+<p>Begin by installing and loading the packages you will need for your analysis. It is good practice to always have a chunk labeled <code>setup</code> that will run first that includes all the packages you use, making it easier for someone trying to replicate your analysis.</p>
+<p>Here, we will use the <code>gapminder</code> package for our dataset and the <code>tidyverse</code> family of functions. If you do not have these, you can install them first using <code>install.packages()</code>.</p>
+<div id="ii.-pivot_longer" class="section level2">
+<h2>II. pivot_longer()</h2>
+<p>There are times where we have to reshape our data into different formats, either for exporting, graph building, using specific functions, or maybe you received data in some format that is best viewed or analyzed in a different shape. We can move from “wide” to “long” formats using <code>pivot</code></p>
+<p>In the “long” layout, we still maintain that each column is a variable and each row is an observation, but you usually have a single column for the observed variable and the other column is the ID variables.</p>
+<p><code>pivot_longer()</code> makes datasets longer by increasing the number of rows and decreasing the number of columns, or ‘lengthening’ your observation variables into a single variable.</p>
+<p><img src="/img/pivotlongerimg.jpeg" /></p>
+<pre class="r"><code>#Take a loot at gapminder, notice it has 3 &quot;ID variables&quot; (continent, country, year) and 3 &quot;observation variables&quot; (pop, lifeExp, gdpPercap)
+gapminder</code></pre>
+<pre><code>## # A tibble: 1,704 × 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.
+##  5 Afghanistan Asia       1972    36.1 13079460      740.
+##  6 Afghanistan Asia       1977    38.4 14880372      786.
+##  7 Afghanistan Asia       1982    39.9 12881816      978.
+##  8 Afghanistan Asia       1987    40.8 13867957      852.
+##  9 Afghanistan Asia       1992    41.7 16317921      649.
+## 10 Afghanistan Asia       1997    41.8 22227415      635.
+## # … with 1,694 more rows</code></pre>
+<pre class="r"><code>#The &quot;long&quot; format will have all 3 observation variables in the other column
+
+
+# Use pivot_longer to build a new long format table called gapminder_longer
+#hint - think about which variables you are going to combine into a single column
+
+gapminder_longer &lt;- gapminder %&gt;% 
+  pivot_longer(cols = c(&quot;pop&quot;, &quot;lifeExp&quot;, &quot;gdpPercap&quot;), names_to = &quot;key&quot;, values_to = &quot;values&quot; )
+
+gapminder_longer</code></pre>
+<pre><code>## # A tibble: 5,112 × 5
+##    country     continent  year key           values
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+##  1 Afghanistan Asia       1952 pop        8425333  
+##  2 Afghanistan Asia       1952 lifeExp         28.8
+##  3 Afghanistan Asia       1952 gdpPercap      779. 
+##  4 Afghanistan Asia       1957 pop        9240934  
+##  5 Afghanistan Asia       1957 lifeExp         30.3
+##  6 Afghanistan Asia       1957 gdpPercap      821. 
+##  7 Afghanistan Asia       1962 pop       10267083  
+##  8 Afghanistan Asia       1962 lifeExp         32.0
+##  9 Afghanistan Asia       1962 gdpPercap      853. 
+## 10 Afghanistan Asia       1967 pop       11537966  
+## # … with 5,102 more rows</code></pre>
+</div>
+<div id="iii.-pivot_wider" class="section level2">
+<h2>III. pivot_wider()</h2>
+<p>Now to move from “long” to “wide” where we take those ID variables and make them their own column.</p>
+<pre class="r"><code># Use pivot_wider() to build a new wide format table called gapminder_wider
+gapminder_wider &lt;- gapminder_longer %&gt;% 
+  pivot_wider(names_from = key, values_from = values)</code></pre>
+</div>

@@ -1,0 +1,59 @@
+---
+title: "Pivot"
+author: "Montana Kay Lara"
+date: "12/3/2021"
+output: html_document
+---
+::: {.fyi}
+**Learning Objectives**
+
+After this session you will be able to:
+
+- Use `pivot_longer` to subset variables
+- Use `pivot_wider` to subset observations
+:::
+
+**You can download a blank copy of this document**
+[here]()
+
+This RMarkdown is for the NGP-CMB R Seminar Pivot session. It is adapted from the Data frame Manipulation with tidyr lesson from The Carpentries http://swcarpentry.github.io/r-novice-gapminder/14-tidyr/index.html 
+
+
+## I. Setup
+
+Begin by installing and loading the packages you will need for your analysis. It is good practice to always have a chunk labeled `setup` that will run first that includes all the packages you use, making it easier for someone trying to replicate your analysis. 
+
+Here, we will use the `gapminder` package for our dataset and the `tidyverse` family of functions. If you do not have these, you can install them first using `install.packages()`. 
+```{r setup, include=FALSE}
+library(tidyverse) 
+library(gapminder)
+```
+
+## II. pivot_longer()
+
+There are times where we have to reshape our data into different formats, either for exporting, graph building, using specific functions, or maybe you received data in some format that is best viewed or analyzed in a different shape. We can move from "wide" to "long" formats using `pivot` 
+
+In the "long" layout, we still maintain that each column is a variable and each row is an observation, but you usually have a single column for the observed variable and the other column is the ID variables. 
+
+`pivot_longer()` makes datasets longer by increasing the number of rows and decreasing the number of columns, or ‘lengthening’ your observation variables into a single variable.
+
+```{r pivot_longer}
+#Take a loot at gapminder, notice it has 3 "ID variables" (continent, country, year) and 3 "observation variables" (pop, lifeExp, gdpPercap)
+gapminder
+#The "long" format will have all 3 observation variables in the other column
+
+
+# Use pivot_longer to build a new long format table called gapminder_longer
+#hint - think about which variables you are going to combine into a single column
+
+```
+
+
+## III. pivot_wider()
+
+Now to move from "long" to "wide" where we take those ID variables and make them their own column. 
+```{r pivot_wider}
+# Use pivot_wider() to build a new wide format table called gapminder_wider
+
+```
+

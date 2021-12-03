@@ -1,0 +1,113 @@
+---
+title: "Iteration with for-loops"
+linktitle: "Iteration with for-loops"
+author: Jeff Brabec
+date: '2021-12-3'
+slug: iteration-with-for-loops
+authors: [jeff]
+lastmod: '2021-09-28T13:30:36-04:00'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+menu:
+  lesson:
+    parent: Lessons
+    weight: 1
+type: docs
+weight: 1
+editor_options:
+  chunk_output_type: console
+---
+
+::: {.fyi}
+**Learning Objectives**
+
+After this session you will be able to:
+
+- Understand the benefits of iteration in R analyses
+- Use indexing in base R
+- Use a for-loop to do simple iterations
+:::
+
+## Iteration to save time and headaches
+
+Repetition is an issue in all parts of the scientific process from filling up individual PCR tubes one by one to repeating the same analysis over and over for different data sets in your project. Repeating ourselves takes time and can often lead to mistakes from losing track of which tube you just filled to forgetting which line of code you just ran. 
+
+Hadley Wickham, the creator and maintainer of many of the R packages in the `tidyverse`, says that "You should consider writing a function whenever you’ve copied and pasted a block of code more than twice (i.e. you now have three copies of the same code)." If you copy code over and over again you increase the chance of introducing a bug or that you'll accidentally overwrite data. 
+
+Let's work through an example. Below is a tibble with some numeric data. If you needed to calculate the mean of each of column of data you could do this column by column. First let's make our data:
+
+```{r setup, echo=FALSE}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+```{r}
+
+```
+
+Now let's caluclate the mean of each column:
+```{r}
+
+```
+
+Great we got four mean values! But rarely do we just have a single table full of data to deal with. Perhaps we have 100 animals each with their own values for behavior or drug doses. Calculating means 400 times is not a fun way to spend a Saturday and with that much copying and pasting we're sure to make more than one mistake.
+
+The solution is iteration, the most basic implentation being a for-loop.
+
+::: {.note}
+**New Syntax Alert!**
+
+So far we have accessed data in tibbles using the `$`. However there is another way to access data stored in objects called **indexing**. Specifically we'll be using numerical indexing which uses numbers and brackets to access the data that we want. So if we were to redo the chunk above using indexing we could write:
+
+```{r eval=FALSE}
+mean(df[[1]])
+mean(df[[2]])
+mean(df[[3]])
+mean(df[[4]])
+```
+
+Which will would yield the exact same answers as above!
+:::
+
+## The for-loop
+
+The for-loop syntax is outlined below. 
+
+1. First you need to specify your *output* object. In this case we just want individual mean values, so we can store those in a vector object. 
+
+2. Next you define the *sequence* the loop will walk through. Each run of the loop will assign `i` to a different value from `seq_along(df)` which are the 4 columns from above. 
+
+```{r}
+```
+
+3. The final stpp is the *body* of the loop which performs the process you want to do, in our case calculating the mean of each column in our dataframe. For each new value of i the body will change like `output[[1]] <- mean(df[[1]])`, `output[[2]] <- mean(df[[2]])`, and so on.
+
+Let's run the loop now and see what comes out!
+
+```{r}
+
+```
+
+The results in our output object are the same as we saw when we ran each `mean` call individually above.
+
+### Indexing using names
+
+In the previous example we used **numerical** indexing to get the columns we wanted to plug into the `mean` function. However sometimes we'll want to retain and use the column names of the object we're iterating over. The syntax is identical to a for-loop executed with numerical indexing but the functions we use are slightly different. 
+
+Remember from previous sessions that to get the column names of a tibble, say the `penguins` dataset from lesson 1, we can use the function `colnames`, or the more general use function `names` which can be applied to more objects than just data.frames, tibbles, or matrices. 
+
+```{r}
+
+```
+
+With these functions we can see how many columns are present in our data and what they are called. Now that we can get the column names, we can iterate over them in a for-loop. 
+
+A good reason to iterate over names instead of numerically is to make more informative plots. Let's work through an example below with the penguins dataset.
+
+
+```{r plot-iteration}
+
+```
+

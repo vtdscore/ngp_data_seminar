@@ -1,0 +1,97 @@
+---
+title: "R Bootcamp Session 6: Working with Bio Data"
+author: "Montana"
+date: "8/10/2021"
+output: html_document
+---
+
+This workflow was created for the NGP-CMB R Seminar GProfiler session. 
+
+This workflow will take you through a few commonly used tools and analysis, and hopefully start to break down the barriers to bioinformatics. Here is the gprofiler2 reference manual: https://cran.r-project.org/web/packages/gprofiler2/gprofiler2.pdf as well as the R client: https://biit.cs.ut.ee/gprofiler/page/r 
+
+
+Outline
+I. Setup
+II. Data
+III. Gprofiler: gconvert
+IV. Gprofiler: gost
+
+
+
+## I. Setup
+
+```{r setup, include=FALSE}
+# if you don't have these packages already, use instal.packages()
+library(tidyverse)
+library(here)
+library(gprofiler2)
+library(magrittr)
+library(janitor)
+library(pheatmap)
+```
+
+## II. Read in dataset
+
+```{r data}
+# read in expression dataset from your "Data" directory using the functions read_csv() and here()
+
+
+#look at your data
+```
+
+
+## III. Gprofiler: gconvert
+
+We will use the package `Gprofiler2` to convert the entrez IDs to gene names. `Gprofiler2` is a super useful tool for conversions, finding gene orthologs, and performing functional enrichment analysis of your genes. Gprofiler supports close to 500 organisms and accepts hundreds of identifier types.
+
+We will use the function `gconvert()` to convert Ensembl ENSG IDs to gene names. 
+
+Arguments you can use: 
+`query` character vector that can consist of mixed types of gene IDs (proteins, transcripts, microarray IDs, etc), SNP IDs, chromosomal intervals or term IDs.
+`organism` organism name. Organism names are constructed by concatenating the first letter of the name and the family name. Example: human - ’hsapiens’, mouse -
+’mmusculus’.
+`target` target namespace.
+`numeric_ns` namespace to use for fully numeric IDs (list of available namespaces here: https://biit.cs.ut.ee/gprofiler/page/namespaces-list).
+`mthreshold` maximum number of results per initial alias to show. Shows all by default.
+`filter_na` logical indicating whether to filter out results without a corresponding target
+```{r gene_names}
+# use the function `gconvert()` to convert the Ensembl ENSG IDs to gene names
+#hint - use the arguments for query, organism, target
+
+
+# look at resulting table
+```
+The output table of genes will have the following columns:
+`input_number` - the order of the input in the input list
+`input` - input identifier
+`target_number` - the number that depicts the input number and the order of target for that input. One input can have several targets. For examaple, 1.2 stands for the second target of first input.
+`target` - corresponding identifier from the selected target namespace
+`name` - name of the target gene
+`description` - description of the target gene
+`namespace` - namespaces where the initial input is available
+
+```{r full_table}
+# add the gene names to the original dataset dataframe
+#hint- which function can "join" two tables together
+
+```
+
+
+
+## IV. Gprofiler: GOSt
+
+We can perform functional enrichment analysis of our gene list using the `gost()` function. Gprofiler:GOSt, or "Gene Ontology Statistics", uses your list of genes as the input query and outputs a new data frame with Gene Ontology (GO) terms, as well as available data from Kyoto Encyclopedia of Genes and Genomes (KEGG), Reactome (REAC), WikiPathways (WP), TRANSFAC (TF), miRTarBase (MIRNA), Human Protein Atlas (HPA), CORUM, and Human phenotype ontology (HP). g:GOSt supports close to 500 organisms and accepts hundreds of identifier types. The Gene Ontology (GO) project is a major bioinformatics initiative to  unify the representation of gene and gene product attributes across all species. The GO Consortium's mission is to develop an up-to-date, comprehensive, computational model of biological systems, from the molecular level to larger pathways, cellular and organism-level systems.
+
+Of note, this is only one function `gost()` from one R package from one source (Gprofiler). There are many ways to perform gene set enrichment analysis and further characterize your gene set lists. 
+```{r gost}
+# Use the function gost() to perform functional analysis on your list of genes
+
+
+# Use the function `gostplot()` to create a Manhattan plot of your results
+
+```
+
+
+
+Resources: 
+this is particularly helpful for working with expression data and looking at it https://scienceparkstudygroup.github.io/rna-seq-lesson/06-differential-analysis/index.html 
