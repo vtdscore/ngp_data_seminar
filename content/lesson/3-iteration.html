@@ -1,0 +1,156 @@
+---
+title: "Iteration with for-loops"
+linktitle: "Iteration with for-loops"
+author: Jeff Brabec
+date: '2021-12-3'
+slug: iteration-with-for-loops
+authors: [jeff]
+lastmod: '2021-09-28T13:30:36-04:00'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+menu:
+  lesson:
+    parent: Lessons
+    weight: 1
+type: docs
+weight: 1
+editor_options:
+  chunk_output_type: console
+---
+
+<script src="lesson/3-iteration_files/header-attrs-2.11/header-attrs.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#iteration-to-save-time-and-headaches">Iteration to save time and headaches</a></li>
+<li><a href="#the-for-loop">The for-loop</a></li>
+</ul>
+</div>
+
+<div class="fyi">
+<p><strong>Learning Objectives</strong></p>
+<p>After this session you will be able to:</p>
+<ul>
+<li>Understand the benefits of iteration in R analyses</li>
+<li>Use indexing in base R</li>
+<li>Use a for-loop to do simple iterations</li>
+</ul>
+</div>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.5     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
+## ✓ readr   2.0.2     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(palmerpenguins)</code></pre>
+<div id="iteration-to-save-time-and-headaches" class="section level2">
+<h2>Iteration to save time and headaches</h2>
+<p>Repetition is an issue in all parts of the scientific process from filling up individual PCR tubes one by one to repeating the same analysis over and over for different data sets in your project. Repeating ourselves takes time and can often lead to mistakes from losing track of which tube you just filled to forgetting which line of code you just ran.</p>
+<p>Hadley Wickham, the creator and maintainer of many of the R packages in the <code>tidyverse</code>, says that “You should consider writing a function whenever you’ve copied and pasted a block of code more than twice (i.e. you now have three copies of the same code).” If you copy code over and over again you increase the chance of introducing a bug or that you’ll accidentally overwrite data.</p>
+<p>Let’s work through an example. Below is a tibble with some numeric data. If you needed to calculate the mean of each of column of data you could do this column by column. First let’s make our data:</p>
+<pre class="r"><code>df &lt;- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10)
+)
+
+#Always look at your data first:
+df</code></pre>
+<pre><code>## # A tibble: 10 × 4
+##          a       b       c      d
+##      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 -1.59    0.572  -0.588   1.53 
+##  2 -0.596   1.46    0.117  -0.136
+##  3  0.0700 -1.61   -0.538  -0.397
+##  4  0.564   0.343   0.527  -0.819
+##  5 -0.213   1.48    0.264  -0.933
+##  6 -0.642   0.0845  0.336   0.827
+##  7 -0.862   2.43   -0.944   0.151
+##  8  0.407   0.596   0.371  -0.207
+##  9 -0.959   0.619   0.169   0.927
+## 10 -0.793   0.394  -0.0365  0.200</code></pre>
+<p>Now let’s caluclate the mean of each column:</p>
+<pre class="r"><code>mean(df$a)</code></pre>
+<pre><code>## [1] -0.4612871</code></pre>
+<pre class="r"><code>mean(df$b)</code></pre>
+<pre><code>## [1] 0.6378145</code></pre>
+<pre class="r"><code>mean(df$c)</code></pre>
+<pre><code>## [1] -0.0322684</code></pre>
+<pre class="r"><code>mean(df$d)</code></pre>
+<pre><code>## [1] 0.1139119</code></pre>
+<p>Great we got four mean values! But rarely do we just have a single table full of data to deal with. Perhaps we have 100 animals each with their own values for behavior or drug doses. Calculating means 400 times is not a fun way to spend a Saturday and with that much copying and pasting we’re sure to make more than one mistake.</p>
+<p>The solution is iteration, the most basic implenttion being a for-loop.</p>
+<div class="note">
+<p><strong>New Syntax Alert!</strong></p>
+<p>So far we have accessed data in tibbles using the <code>$</code>. However there is another way to access data stored in objects called <strong>indexing</strong>. Specifically we’ll be using numerical indexing which uses numbers and brackets to access the data that we want. So if we were to redo the chunk above using indexing we could write:</p>
+<pre class="r"><code>mean(df[[1]])
+mean(df[[2]])
+mean(df[[3]])
+mean(df[[4]])</code></pre>
+<p>Which will would yield the exact same answers as above!</p>
+</div>
+</div>
+<div id="the-for-loop" class="section level2">
+<h2>The for-loop</h2>
+<p>The for-loop syntax is outlined below.
+1. First you need to specify your <em>output</em> object. In this case we just want individual mean values, so we can store those in a vector object.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Next you define the <em>sequence</em> the loop will walk through. Each run of the loop will assign <code>i</code> to a different value from <code>seq_along(df)</code> which are the 4 columns from above.</li>
+</ol>
+<pre class="r"><code>seq_along(df)</code></pre>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>The final stpp is the <em>body</em> of the loop which performs the process you want to do, in our case calculating the mean of each column in our dataframe. For each new value of i the body will change like <code>output[[1]] &lt;- mean(df[[1]])</code>, <code>output[[2]] &lt;- mean(df[[2]])</code>, and so on.</li>
+</ol>
+<p>Let’s run the loop now and see what comes out!</p>
+<pre class="r"><code>output &lt;- vector(&quot;double&quot;, ncol(df))  # 1. output
+for (i in seq_along(df)) {            # 2. sequence
+  output[[i]] &lt;- mean(df[[i]])        # 3. body
+}
+output</code></pre>
+<pre><code>## [1] -0.4612871  0.6378145 -0.0322684  0.1139119</code></pre>
+<p>The results in our output object are the same as we saw when we ran each <code>mean</code> call individually above.</p>
+<div id="indexing-using-names" class="section level3">
+<h3>Indexing using names</h3>
+<p>In the previous example we used <strong>numerical</strong> indexing to get the columns we wanted to plug into the <code>mean</code> function. However sometimes we’ll want to retain and use the column names of the object we’re iterating over. The syntax is identical to a for-loop executed with numerical indexing but the functions we use are slightly different.</p>
+<p>Remember from previous sessions that to get the column names of a tibble, say the <code>penguins</code> dataset from lesson 1, we can use the function <code>colnames</code>, or the more general use function <code>names</code> which can be applied to more objects than just data.frames, tibbles, or matrices.</p>
+<pre class="r"><code>colnames(penguins)</code></pre>
+<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
+## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
+## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
+<pre class="r"><code>names(penguins)</code></pre>
+<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
+## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
+## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
+<p>With these functions we can see how many columns are present in our data and what they are called. Now that we can get the column names, we can iterate over them in a for-loop.</p>
+<p>A good reason to iterate over names instead of numerically is to make more informative plots. Let’s work through an example below with the penguins dataset.</p>
+<pre class="r"><code>#first drop na values and select the columns we want to plot
+plotting_data &lt;- penguins %&gt;%
+  drop_na() %&gt;% 
+  select(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
+
+#
+for(i in names(plotting_data)) {
+  
+  plot &lt;- ggplot(plotting_data, aes(x = bill_length_mm, y = plotting_data[[i]])) + #use indexing to select the first column which is bill_length_mm
+    geom_point()
+  
+  print(plot)
+  Sys.sleep(2) #This just makes R pause for a few seconds so we can actually look at the plots its producing over in the plot viewer
+}</code></pre>
+<pre><code>## Warning: Use of `plotting_data[[i]]` is discouraged. Use `.data[[i]]` instead.</code></pre>
+<p><img src="lesson/3-iteration_files/figure-html/plot-iteration-1.png" width="672" /></p>
+<pre><code>## Warning: Use of `plotting_data[[i]]` is discouraged. Use `.data[[i]]` instead.</code></pre>
+<p><img src="lesson/3-iteration_files/figure-html/plot-iteration-2.png" width="672" /></p>
+<pre><code>## Warning: Use of `plotting_data[[i]]` is discouraged. Use `.data[[i]]` instead.</code></pre>
+<p><img src="lesson/3-iteration_files/figure-html/plot-iteration-3.png" width="672" /></p>
+<pre><code>## Warning: Use of `plotting_data[[i]]` is discouraged. Use `.data[[i]]` instead.</code></pre>
+<p><img src="lesson/3-iteration_files/figure-html/plot-iteration-4.png" width="672" /></p>
+</div>
+</div>
